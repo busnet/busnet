@@ -70,6 +70,11 @@ var ws = {
             });
         });
     },
+    getCities: function(filter, cb){
+        dal.getCities(filter, function(err, data){
+            cb(err, data);
+        });
+    },
     getSubContactionRides: function (a,cb) {
         dal.getSubContactionRides(function(err,data){
             var r = {};

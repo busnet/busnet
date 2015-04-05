@@ -43,7 +43,6 @@ app.use(function (err, req, res, next) {
 
 dal.getUrlPull(function(pages){urlPull = pages;});
 
-console.log(config.listen.port);
 server.listen(config.listen.port);
 
 var io = require('socket.io').listen(server);
@@ -76,7 +75,6 @@ app.get('/EctMail.html', function(request, response){
                 var txt = ob.params.companyName + ' הוסיפו נסיעה ' + ob.params.area + ' אל  ' + ob.params.destination + ' בתאריך ' + ob.params.aviliableDate;
                 
                 var data = { message: txt, username: ob.params.username, time: time , name:'<span style="color:red">הודעת מערכת</span>' };
-                console.log(data);
                 
                 chat.sockets.emit('forumMsg', data);
                 chat2all.push(data);
@@ -135,7 +133,6 @@ app.post('/uploadimg/', function (request, response) {
 
 
 app.get('/*', function(request, response){
-    console.log(request.headers.host + request.url );
     var h = config.serve.host; 
         if (config.serve.port != 80 )  
             h += ':' + config.serve.port ;
@@ -262,8 +259,6 @@ chat.sockets.on('connection', function (socket) {
         dal.addMsgToChat(data.rideID, data.username, data, function (err, d) {
             if (err)
                 console.log(err);
-            if (data)
-                console.log(d);
         });
 
         if (rides[data.rideID] && rides[data.rideID][data.username])
@@ -286,8 +281,6 @@ chat.sockets.on('connection', function (socket) {
         dal.addPrice2Ride(data.rideID, data.toUser, data.price, function (err, d) {
             if (err)
                 console.log(err);
-            if (data)
-                console.log(d);
         });
         chatUsers[data.username] = socket;
 
@@ -329,7 +322,7 @@ chat.sockets.on('connection', function (socket) {
             if (err)
                 console.log(err);
             if (d) {
-                console.log(d);
+                //console.log(d);
                 if (data.isApproved) {
                     notify({ from: data.username, to: data.toUser, type: 'RideApproved', rideID: parseInt(data.rideID), senderName: data.name, read: false, date: new Date(), msg: data.message });
                    
@@ -356,8 +349,6 @@ chat.sockets.on('connection', function (socket) {
         dal.addMsgToChat(data.rideID, data.toUser, data, function (err, d) {
             if (err)
                 console.log(err);
-            if (data)
-                console.log(d);
         });
         notify({ from: data.username, to: data.toUser, type: 'Chat', rideID: parseInt(data.rideID), senderName: data.name, read: false, date: new Date(), msg: data.message });
 

@@ -7,7 +7,6 @@ function login(username, password,cb) {
     var url = 'http://busbook.fanscard.co.il/api/check-access/by-login-pass?_key=RIUqIS2mMU0xjl4R0EH8&login=' + username + '&pass=' + password;
     //
     request(url, function (error, response, body) {
-        console.log(error, response, body);
         cb(null,body);
     });
 }

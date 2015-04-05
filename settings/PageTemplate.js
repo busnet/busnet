@@ -33,6 +33,7 @@ var sm = {
                                , vehicleType: { $$Param: { From: "QueryString", Key: "vt" } }
                                , aviliableDate: { $$Param: { From: "QueryString", Key: "ad" } }
                                , aviliableDateObj: { $gte: { $$Param: { From: "System", Key: "today" } } }
+                               //, aviliableHour: { $gte: { $$Param: { From: "System", Key: "time" } } }
                                , area: { $$Param: { From: "QueryString", Key: "area" } }
                                , $or: [ {area: { $$Param: { From: "QueryString", Key: "area", DefaultValue:"a" } }}
                                     , { cityID: { $$Param: { From: "Area", Key: "GetFaviCities", ParseFnc: '$in' } } }

@@ -4,6 +4,6 @@
     this.Params = params;
 }
 
-Responder.prototype.GetData = function(){ console.log(this.template) };
+Responder.prototype.GetData = function(){ /*console.log(this.template)*/ };
 
 module.exports = Responder;

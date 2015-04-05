@@ -11188,26 +11188,36 @@ function InitAutocomplete(){
     $( ".filterable" ).on( "listviewbeforefilter", function ( e, data ) {
     var $ul = $( this ),
     $input = $( data.input ),
-    value = $input.val(),
-    html = "";
+    value = $input.val();
+
     $ul.html( "" );
     if ( value && value.length > 1 ) {
+        $ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
         $ul.show();
         $ul.html( "<li></li>" );
-        var cities = $('#city-data ul li');
-        $.each(cities.toArray(), function ( i, val ) {
-             //html += city; //"<li class='destination' id='" + city.id + "'>" + city.city + "</li>";
-            var city = $(val).clone(true);
-            city.click(function() {
-                var selection = $(this).text();
-                var input = $(this).closest('div').find('input');
-                input.val(selection);
-                input.data("cityid", $(this).data().cityid);
-                input.data("areaid", $(this).data().areaid);
-                $ul.hide();
+        ng.ws('getCities', value,function (data) {
+            console.log(data);
+            var area = "";
+            $.each(data, function ( i, city ) {
+                if(city.area != area){
+                    $ul.append($("<li data-role=\"list-divider\" role=\"heading\" class=\"ui-li-divider ui-bar-inherit\" >"+ city.area +"</li>"));
+                }
+                area = city.area;
+                var li = $("<li data-cityid=\""+ city._id +"\" data-areaid=\""+ city.areaId +"\" data-filtertext=\""+ city.city +"\"><a href=\"javascript:false;\">"+ city.city +"</a></li>");
+                li.click(function() {
+                    var selection = $(this).text();
+                    //var input = $(this).closest('div').find('input');
+                    $input.val(selection);
+                    $input.data("cityid", $(this).data().cityid);
+                    $input.data("areaid", $(this).data().areaid);
+                    $ul.hide();
+                });
+                $ul.append(li);
+                $ul.listview( "refresh" );
+                $ul.trigger( "updatelayout");
             });
-            $ul.append(city);
         });
+        
     }
 });
 }

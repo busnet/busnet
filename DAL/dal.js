@@ -36,6 +36,9 @@ var dal ={
         });
         cb(null);
         },
+        getCities: function(filter, cb){
+            db.collection("Cities").find({city:{$regex: filter}}).toArray(cb);
+        },
         getUrlPull: function(cb){
                 var pages = db.collection("Pages")
                 var p=[];
@@ -47,7 +50,7 @@ var dal ={
             db.collection("Operators").find().toArray(cb);
         },
         getAreas: function (cb) {
-            db.collection("Area").find().toArray(cb);
+            db.collection("Cities").find().toArray(cb);
         },
         getPhoneNumbers: function(exclude_user, cb){
             var data = db.collection("BusCompany");
