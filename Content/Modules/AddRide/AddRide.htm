@@ -100,16 +100,4 @@
             </div>
         </div>
     <div class="Clear"></div>
-    
-    <div id="city-data" style="display:none;">
-        <ul>
-        <% for city in @res : %>
-            <% if city.area != area : %>
-                <li data-role="list-divider" role="heading" class="ui-li-divider ui-bar-inherit" ><%- city.area %></li>
-            <%  end %>
-            <li data-cityid="<%- city._id %>" data-areaid="<%- city._id %>" data-filtertext="<%-city.city%>"><a href="javascript:false;"><%- city.city %></a></li>
-            <% area = city.area %>
-        <% end %>
-        </ul>
-    </div>
 </div>
