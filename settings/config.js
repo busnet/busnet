@@ -8,7 +8,7 @@
         //host: "localhost",
         port: 3002,
         //host: "app.busnet.co.il",
-        host: "http://busnet-v102-env-7nbphvjpan.elasticbeanstalk.com"
+        host: "busnet-v102-env-7nbphvjpan.elasticbeanstalk.com"
         //port: 80
     },
     db:{
