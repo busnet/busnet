@@ -6,10 +6,10 @@
     },
     serve:{
         //host: "localhost",
-        //port: 3002,
+        port: 3002,
         //host: "app.busnet.co.il",
-        host: "awseb-e-c-AWSEBLoa-A3Y629XRWBQ8-2023387998.us-west-2.elb.amazonaws.com",
-        port: 80
+        host: "http://busnet-v102-env-7nbphvjpan.elasticbeanstalk.com"
+        //port: 80
     },
     db:{
         name:"BusNet",
