@@ -22,7 +22,6 @@ function GetFaviCities(request) {
             continue;
         faviCities += areas[selectedAreas[i]].cities;
     }
-
     if (faviCities == "")
         faviCities = "9999";
     var res = JSON.parse('{"$in":[9999]}');
@@ -33,7 +32,6 @@ function GetFaviCities(request) {
         console.log(areas);
         
     }
-    
     return res;
 }
 

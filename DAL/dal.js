@@ -50,7 +50,7 @@ var dal ={
             db.collection("Operators").find().toArray(cb);
         },
         getAreas: function (cb) {
-            db.collection("Cities").find().toArray(cb);
+            db.collection("Area").find().toArray(cb);
         },
         getPhoneNumbers: function(exclude_user, cb){
             var data = db.collection("BusCompany");
