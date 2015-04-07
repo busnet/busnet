@@ -12,7 +12,7 @@
         port: 80
     },
     db:{
-        name:"BusNet",
+        name:"trucknet",
         server:"ip-172-31-25-81.us-west-2.compute.internal"
         //server: "localhost"
     },
