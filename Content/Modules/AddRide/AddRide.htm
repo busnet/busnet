@@ -19,15 +19,15 @@
                     <!--<input type="text" ng-key="destination" ng-validate="required" class="DestinationTxt InputTxt" />-->
                     <select class="sDestinationT" ng-key="type" ng-validate="required" data-role="none">
                         <option value="1">נסיעה</option>
-                        <option value="2">קבלנות משנה</option>
+                        <option value="2">אוטובוס פנוי</option>
                     </select>
                 </div>
             <div class="DateWrapper">
-                <label class="FormLabel">תאריך פינוי</label>
+                <label class="FormLabel">תאריך</label>
                 <input type="text" ng-key="aviliableDate" ng-validate="required" class="DateTxt InputTxt" data-role="none" />
             </div>
             <div class="HourWrapper Clear">
-                <label class="FormLabel">שעת פינוי</label>
+                <label class="FormLabel">שעה</label>
                 <!--<input type="text" ng-key="aviliableHour" ng-validate="required" class="HourTxt InputTxt" />-->
                 <select class="sHours" ng-key="aviliableHour" ng-validate="required" data-role="none">
                     <option value="">בחר שעה</option>
@@ -88,7 +88,7 @@
                 </ul>
             </div>
             <div class="ReturnDateWrapper Clear">
-                <label class="FormLabel">תאריך החזרה</label>
+                <label class="FormLabel">החזרה</label>
                 <input type="text" ng-key="returnDate" ng-validate="required" data-role="none" class="DateTxt InputTxt" />
             </div>
             <div class="DestinationWrapper Clear">
