@@ -5,15 +5,15 @@
 	    port: 3002
     },
     serve:{
-        //host: "localhost",
-        host: "busnet-trucknet-env-xeh5yesvtj.elasticbeanstalk.com",
+        host: "localhost",
+        //host: "busnet-trucknet-env-xeh5yesvtj.elasticbeanstalk.com",
         //host: "busnet-v102-env-7nbphvjpan.elasticbeanstalk.com"
         port: 3002
     },
     db:{
-        name:"trucknet",
-        server:"ip-172-31-25-81.us-west-2.compute.internal"
-        //server: "localhost"
+        name:"Busnet",
+        //server:"ip-172-31-25-81.us-west-2.compute.internal"
+        server: "localhost"
     },
     wasup:
     {
