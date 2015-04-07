@@ -6,10 +6,9 @@
     },
     serve:{
         //host: "localhost",
-        //port: 3002,
-        host: "app.busnet.co.il",
+        host: "http://busnet-trucknet-env-xeh5yesvtj.elasticbeanstalk.com",
         //host: "busnet-v102-env-7nbphvjpan.elasticbeanstalk.com"
-        port: 80
+        port: 3002
     },
     db:{
         name:"trucknet",
