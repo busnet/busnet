@@ -68,7 +68,7 @@ function initCitySearch() {
 }
 
 function loadFaviArea() {
-changeRideRowColor ();
+//changeRideRowColor ();
     if (!$.cookie('faviArea')) {
         ng.ws('getFaviArea', { username: $.cookie('username', { path: '/' }), hash: $.cookie('h', { path: '/' }) }, function (d) {
             if (!d.favi) {
@@ -84,10 +84,13 @@ changeRideRowColor ();
         
     }
 }
-
+/*
 function changeRideRowColor () {
-$("td:contains('קבלנות משנה')").css('background-color','#499c4a').css('color','white');
-$("td:contains('קבלנות משנה')").siblings().css('background-color','#499c4a').css('color','white');
-$("td:contains('קבלנות משנה')").parent().css('background-color','#499c4a').css('color','white');
+$("td:contains('קבלנות משנה')").css('background-color','#B6C4E2').css('color','white');
+$("td:contains('קבלנות משנה')").siblings().css('background-color','#B6C4E2').css('color','white');
+$("td:contains('קבלנות משנה')").parent().css('background-color','#B6C4E2').css('color','white');
 $("td:contains('קבלנות משנה')").parent().find(".CompanyNameClick").css('color','white');
+$("td:contains('קבלנות משנה')").parent('tr').next().find('td').css('background-color','#B6C4E2').css('color','white');
 }
+*/
+

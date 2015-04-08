@@ -10626,7 +10626,7 @@ function initCitySearch() {
 }
 
 function loadFaviArea() {
-changeRideRowColor ();
+//changeRideRowColor ();
     if (!$.cookie('faviArea')) {
         ng.ws('getFaviArea', { username: $.cookie('username', { path: '/' }), hash: $.cookie('h', { path: '/' }) }, function (d) {
             if (!d.favi) {
@@ -10642,13 +10642,16 @@ changeRideRowColor ();
         
     }
 }
-
+/*
 function changeRideRowColor () {
-$("td:contains('קבלנות משנה')").css('background-color','#499c4a').css('color','white');
-$("td:contains('קבלנות משנה')").siblings().css('background-color','#499c4a').css('color','white');
-$("td:contains('קבלנות משנה')").parent().css('background-color','#499c4a').css('color','white');
+$("td:contains('קבלנות משנה')").css('background-color','#B6C4E2').css('color','white');
+$("td:contains('קבלנות משנה')").siblings().css('background-color','#B6C4E2').css('color','white');
+$("td:contains('קבלנות משנה')").parent().css('background-color','#B6C4E2').css('color','white');
 $("td:contains('קבלנות משנה')").parent().find(".CompanyNameClick").css('color','white');
+$("td:contains('קבלנות משנה')").parent('tr').next().find('td').css('background-color','#B6C4E2').css('color','white');
 }
+*/
+
 
 function selectSub(el){
     $('.CategoryMenu li.selected').removeClass('selected');
@@ -11586,12 +11589,15 @@ function userAskRide(rideID) {
     var currentBallID = "#Ball" + rideID;
     var bidRideID = "#BidRide" + rideID;
     var closeBidRideBtn = "#CloseBidRideBtn" + rideID;
+    var extaFild = "#rideRowExtra_" + rideID;
     var user = $.cookie('username', { path: '/' });
 
     if($('#ChatRow_' + rideID).css("display") == "none")
     {
         $(bidRideID).parents("tr").addClass("CurrentRow");
         $(currentBallID).removeClass("RedBall").addClass("GreenBall");
+		$(extaFild).hide();
+		
         //$(bidRideID).removeClass("BidRideBtn").addClass("CloseBidRideBtn").html("סגור חלון");
         $("#BidRide" + rideID).hide();
         $(closeBidRideBtn).show();
@@ -11636,11 +11642,13 @@ function userAskRide(rideID) {
         //$(bidRideID).removeClass("CloseBidRideBtn").addClass("BidRideBtn").html("הזמן נסיעה");
         $("#BidRide" + rideID).show();
         $(closeBidRideBtn).hide();
+		$(extaFild).show();
 
         $('#ChatRow_' + rideID).hide();
 
         $(".RedBall").removeClass("AdjustRedBall");
-    }            
+    }
+	
 }
 
 function OpenRequest(rideID,requestFrmUsernam) {

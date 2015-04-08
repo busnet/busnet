@@ -1178,8 +1178,8 @@
                 <th>שם החברה</th>
                 <th>סוג רכב</th>
                 <th>מוצא</th>
-                <th>יעד</th>
                 <th>החזרה</th>
+                <th>יעד</th>
                 <th>התקשרות</th>
             </tr>
             <% if @res :%>
@@ -1212,6 +1212,9 @@
                     <div id="CloseBidRideBtn<%- ride._id %>" class="CloseBidRideBtn" onclick="userAskRide('<%- ride._id %>');">סגור</div>
                 </td>
             </tr>
+			<tr class="rideRowExtra" id="rideRowExtra_<%- ride._id %>">
+			<td colspan="10"><%- ride.extraDetails %></td>
+			</tr>
             <tr style="display:none;">
                 <td colspan="10"></td>
             </tr>

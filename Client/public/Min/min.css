@@ -1161,8 +1161,17 @@ width: 4.3vw;
 
     .Rides_T tr:nth-child(even) td {
         background-color: #D6D9EC;
-		border-bottom: 1px solid #b4b4b4;
+		border-bottom: 0px solid #b4b4b4;
     }
+	.rideRowExtra > td {
+height: 18px !important;
+  background-color: rgb(214, 217, 236);
+  text-align: right !important;
+  padding: 0px 2% 6px 2% !important;
+  font-size: 95% !important;
+  color: rgb(76, 102, 163);
+  border-bottom: 1px solid #b4b4b4;
+	}
 
 /* Search Pane */
 
