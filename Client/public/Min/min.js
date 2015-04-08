@@ -10617,12 +10617,44 @@ function saveFaviArea() {
 }
 
 function initCitySearch() {
-    setTimeout(function () {
+    /*setTimeout(function () {
         $('#CityList').hide();
         $('.ui-input-search input').click(function (event) { event.stopPropagation(); }).focus(function (event) { event.stopPropagation(); $('#CityList').show(); });
         $('html').click(function () { $('#CityList').hide(); });
-    }, 1000);
+    }, 1000);*/
     loadFaviArea();
+    $( ".filterable" ).on( "listviewbeforefilter", function ( e, data ) {
+    var $ul = $( this ),
+    $input = $( data.input ),
+    value = $input.val();
+
+    $ul.html( "" );
+    if ( value && value.length > 1 ) {
+        $ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
+        $ul.show();
+        $ul.html( "<li></li>" );
+        ng.ws('getCities', value,function (data) {
+            var area = "";
+            $.each(data, function ( i, city ) {
+                if(city.area != area){
+                    $ul.append($("<li data-role=\"list-divider\" role=\"heading\" class=\"ui-li-divider ui-bar-inherit\" >"+ city.area +"</li>"));
+                }
+                area = city.area;
+                var li = $("<li data-cityid=\""+ city._id +"\" data-areaid=\""+ city.areaId +"\" data-filtertext=\""+ city.city +"\"><a href=\"javascript:false;\">"+ city.city +"</a></li>");
+                li.click(function() {
+                    var selection = $(this).text();
+                    $input.val(selection);
+                    $input.data("cityid", $(this).data().cityid);
+                    $input.data("areaid", $(this).data().areaid);
+                    $ul.hide();
+                });
+                $ul.append(li);
+                $ul.listview( "refresh" );
+                $ul.trigger( "updatelayout");
+            });
+        });
+    }
+});
 }
 
 function loadFaviArea() {
