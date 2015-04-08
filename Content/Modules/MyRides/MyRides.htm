@@ -5,22 +5,22 @@
             <div class="PickDateImg">
                 <img alt="" src="https://s3-us-west-2.amazonaws.com/busnet/website/DateIcon.jpg" />
             </div>
-            <input type="text" id="dateInput" class="DateInput" data-role="none" />
+            <input type="text" id="dateInput" class="DateInput" data-role="none"  onchange="filter()"/>
             <div class="DateLbl">תאריך מבוקש</div>
         </div>
     </div>
     <div class="RidesPane">
         <table class="Rides_T" cellpadding="0" cellspacing="0" border="0">
             <tr>
-                <th>מס נסיעה</th>
+                <th>עה</th>
                 <th>סוג</th>
-                <th>תאריך פינוי</th>
-                <th>שעת פינוי</th>
+                <th>תאריך</th>
+                <th>שעה</th>
                 <th>שם החברה</th>
-                <th>מס' רכבים</th>
-                <th>אזור הפינוי</th>
-                <th>תאריך החזרה</th>
-                <th>יעד החזרה</th>
+                <th>סוג רכב</th>
+                <th>מוצא</th>
+                <th>החזרה</th>
+                <th>יעד</th>
                 <th>התקשרות</th>
             </tr>
             <% for ride,index in @res : %>
@@ -30,7 +30,7 @@
                     <% if ride.type == "2" : %>
                     קבלנות משנה
                     <% else : %>
-                    נסיעה
+                    משאית פנויה
                     <% end %>
                 </td>
                 <td><%- ride.aviliableDate %></td>
@@ -40,7 +40,7 @@
                         <%- ride.company %>
                     
                 </td>
-                <td><%- ride.vehicleNumber %></td>
+                <td><%- ride.vehicleType %></td>
                 <td><%- ride.area %></td>
                 <td><%- ride.returnDate %></td>
                 <td><%- ride.destination %></td>

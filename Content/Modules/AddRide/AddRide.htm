@@ -18,16 +18,16 @@
                     <label class="FormLabel">סוג נסיעה</label>
                     <!--<input type="text" ng-key="destination" ng-validate="required" class="DestinationTxt InputTxt" />-->
                     <select class="sDestinationT" ng-key="type" ng-validate="required" data-role="none">
-                        <option value="1">נסיעה</option>
+                        <option value="1">משאית פנויה</option>
                         <option value="2">קבלנות משנה</option>
                     </select>
                 </div>
             <div class="DateWrapper">
-                <label class="FormLabel">תאריך פינוי</label>
+                <label class="FormLabel">תאריך</label>
                 <input type="text" ng-key="aviliableDate" ng-validate="required" class="DateTxt InputTxt" data-role="none" />
             </div>
             <div class="HourWrapper Clear">
-                <label class="FormLabel">שעת פינוי</label>
+                <label class="FormLabel">שעה</label>
                 <!--<input type="text" ng-key="aviliableHour" ng-validate="required" class="HourTxt InputTxt" />-->
                 <select class="sHours" ng-key="aviliableHour" ng-validate="required" data-role="none">
                     <option value="">בחר שעה</option>
@@ -62,23 +62,19 @@
                 <label class="FormLabel">סוג רכב</label>
                 <!--<input type="text" ng-key="vehicleType" ng-validate="required" class="VehicleTypeTxt InputTxt" />-->
                 <select class="sVehicleType" ng-key="vehicleType" ng-validate="required" data-role="none">
-                    <option value="">בחר סוג</option>
-                    <option>אוטובוס</option>
-                    <option>מיניבוס</option>
-                    <option>וואן</option>
-                    <option>מיקרובוס</option>
-                    <option>רכב להסעת נכים</option>
+                    <option value="">סוג רכב</option>
+                    <option>משאית עד 15</option>
+                    <option>משאית מ 15</option>
+                    <option>משאית שטח</option>
+                    <option>מנוף</option>
+                    <option>גרר</option>
                 </select>
             </div>
-            <div class="VehiclesNumberWrapper Clear">
-                <label class="FormLabel">מס' רכבים</label>
+            <div style="display: none;" class="VehiclesNumberWrapper Clear">
+                <label class="FormLabel">סוג הובלה</label>
                 <!--<input type="text" ng-key="vehicleNumber" ng-validate="required" class="VehiclesNumberTxt InputTxt" />-->
-                <select class="sVehicleNumber" ng-key="vehicleNumber" ng-validate="required" data-role="none">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5+</option>
+                <select  class="sVehicleNumber" ng-key="vehicleNumber" ng-validate="required" data-role="none">
+                    <option value="&nbsp;">1</option>
                 </select>
             </div>
             <div class="AreaWrapper Clear">
@@ -88,7 +84,7 @@
                 </ul>
             </div>
             <div class="ReturnDateWrapper Clear">
-                <label class="FormLabel">תאריך החזרה</label>
+                <label class="FormLabel">החזרה</label>
                 <input type="text" ng-key="returnDate" ng-validate="required" data-role="none" class="DateTxt InputTxt" />
             </div>
             <div class="DestinationWrapper Clear">

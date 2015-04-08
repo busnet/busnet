@@ -1,4 +1,11 @@
 /* Interactive Area */
+.logoutButton {
+background-color: rgb(73, 156, 74);
+  color: #fff !important;
+  text-decoration: blink;
+  padding: 1% 2%;
+  margin-right: 4%;
+}
 
 .InteractivePane {
     margin: 0 0 10px 0;
@@ -183,7 +190,7 @@ width: 4.3vw;
 
 .InputTxt {
     background-color: #FFFFFF;
-    border: solid 1px #000000;
+    border: solid 1px #929292;
     margin: 0 0 10px;
     /*line-height: 200%;*/
     height: 25px;
@@ -195,6 +202,7 @@ width: 4.3vw;
     /*min-height: 0;*/
     text-align: right;
     text-shadow: none;
+	  font-size: 115%;
 }
 
 .MainLeftPane {
@@ -336,8 +344,8 @@ width: 4.3vw;
     }
 
     .Rides_T tr td {
-        font-size: 100%;
-        height: 34px;
+        font-size: 115%;
+        height: 42px;
         text-align: center;
     }
 
@@ -878,7 +886,7 @@ margin-top: 24px;
     }
 
     .Rides_T tr td {
-        font-size: 130%;
+        font-size: 150%;
     }
 
     .RedBall,
@@ -982,7 +990,7 @@ height: 18px;
     }
 
     .Rides_T tr td {
-        font-size: 125%;
+        font-size: 145%;
     }
 
     .RedBall,
@@ -1086,7 +1094,7 @@ height: 18px;
     }
 
     .Rides_T tr td {
-        font-size: 120%;
+        font-size: 140%;
     }
 
     .RedBall,
@@ -1178,7 +1186,7 @@ height: 19px;
     }
 
     .Rides_T tr td {
-        font-size: 120%;
+        font-size: 140%;
     }
 
     .RedBall,
@@ -1266,7 +1274,7 @@ margin-top: 19.5%;
     }
 
     .Rides_T tr td {
-        font-size: 105%;
+        font-size: 130%;
     }
 
     .RedBall,
@@ -1354,7 +1362,7 @@ margin-top: 17%;
     }
 
     .Rides_T tr td {
-        font-size: 105%;
+        font-size: 115%;
     }
 
     .RedBall,
