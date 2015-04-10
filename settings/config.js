@@ -6,7 +6,7 @@
     },
     serve:{
         host: "localhost",
-        //host: "busnet-v102-env-7nbphvjpan.elasticbeanstalk.com"
+        host: "http://busnet-v103-env-fmbbxuxxes.elasticbeanstalk.com",
         port: 3002
     },
     db:{

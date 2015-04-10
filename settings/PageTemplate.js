@@ -39,7 +39,7 @@ var sm = {
                                     , { dstCityID: { $$Param: { From: "Area", Key: "GetFaviCities", ParseFnc: '$in' } } }
                                ]
                            }
-                                , Fileds: { 'reuqests': 0 }, Options: { skip: 0, limit: 500, sort: { "aviliableDateObj": 1, "aviliableHour": 1 } }
+                                , Fileds: { 'reuqests': 0 }, Options: { skip: 0, limit: 20, sort: { "aviliableDateObj": 1, "aviliableHour": 1 } }
                        }
                    }]
                }]
