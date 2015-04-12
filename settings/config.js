@@ -6,8 +6,8 @@ module.exports = {
     },
     serve:{
         //host: "localhost",
-        host: "busnet-v103-kzub3gtaju.elasticbeanstalk.com",
-        port: 3002
+        host: "app.busnet.co.il",
+        port: 80
     },
     db:{
         name:"BusNet",
