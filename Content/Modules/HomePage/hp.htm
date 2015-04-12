@@ -19,9 +19,11 @@
                 <option>רכב להסעת נכים</option>
             </select>
             <div class="DateLbl">רכב</div>
+			<div id="cityFilter">
             <input id="area" type="hidden">
             <input class="filterable-input InputTxt" data-type="search" type="text" class="filterable-input" id="sourcefilter" ng-key="city" ng-validate="required" placeholder="חפש עיר..." />
             <ul ng-key="citylist" class="filterable" data-role="listview" data-filter="true" data-input="#sourcefilter" data-filter-reveal="true" data-inset="true">
+			</div>
             </ul>
         </div>
     </div>
