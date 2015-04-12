@@ -89,6 +89,7 @@ function initCitySearch() {
                     $input.data("cityid", $(this).data().cityid);
                     $input.data("areaid", $(this).data().areaid);
                     $ul.hide();
+                    filter();
                 });
                 $ul.append(li);
                 $ul.listview( "refresh" );
