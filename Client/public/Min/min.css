@@ -1209,6 +1209,11 @@ right: 2.3125em;
 text-align: right;
 }
 
+#cityFilter #area {
+color: #fff;
+  text-shadow: 0 0 0;
+}
+
 /*************************************************************/
 
 .RedBall,
