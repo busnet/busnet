@@ -5,14 +5,14 @@
 	    port: 3002
     },
     serve:{
-        //host: "localhost",
-        host: "busnet-v103-kzub3gtaju.elasticbeanstalk.com",
+        host: "localhost",
+        //host: "busnet-v103-kzub3gtaju.elasticbeanstalk.com",
         port: 3002
     },
     db:{
         name:"BusNet",
-        server:"ip-172-31-25-81.us-west-2.compute.internal"
-        //server: "localhost"
+        //server:"ip-172-31-25-81.us-west-2.compute.internal"
+        server: "localhost"
     },
     wasup:
     {
