@@ -123,3 +123,5 @@ $("td:contains('קבלנות משנה')").siblings().css('background-color','#49
 $("td:contains('קבלנות משנה')").parent().css('background-color','#499c4a').css('color','white');
 $("td:contains('קבלנות משנה')").parent().find(".CompanyNameClick").css('color','white');
 }
+
+

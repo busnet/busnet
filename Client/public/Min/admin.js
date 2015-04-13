@@ -10390,9 +10390,11 @@ function filter() {
     var url =  window.location.pathname + "?s=1";
     if(type)
         url+= '&vt='+type;
+		
     var ad = $('#dateInput').val();
     if (ad)
         url += '&ad=' + ad;
+		
     var area = $('#area').val();
     if (area)
         url += '&area=' + area;

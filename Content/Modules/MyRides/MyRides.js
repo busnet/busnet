@@ -29,3 +29,6 @@ function deleteRideFormMyRides(rideID) {
         });
     } 
 }
+
+fixHeigth ();
+

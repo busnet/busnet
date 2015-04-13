@@ -10427,9 +10427,11 @@ function filter() {
     var url =  window.location.pathname + "?s=1";
     if(type)
         url+= '&vt='+type;
+		
     var ad = $('#dateInput').val();
     if (ad)
         url += '&ad=' + ad;
+		
     var area = $('#area').val();
     if (area)
         url += '&area=' + area;
@@ -10681,6 +10683,8 @@ $("td:contains('קבלנות משנה')").siblings().css('background-color','#49
 $("td:contains('קבלנות משנה')").parent().css('background-color','#499c4a').css('color','white');
 $("td:contains('קבלנות משנה')").parent().find(".CompanyNameClick").css('color','white');
 }
+
+
 
 function selectSub(el){
     $('.CategoryMenu li.selected').removeClass('selected');
@@ -11312,6 +11316,7 @@ function filterCities(area,cityDDLID) {
         }
     }
 }
+
 $(document).ready(function () {
     //var socket = io.connect("127.0.0.1:3004");
     var socket = io.connect();
@@ -11836,6 +11841,9 @@ function deleteRideFormMyRides(rideID) {
         });
     } 
 }
+
+fixHeigth ();
+
 function SetRowsBG()
 {
     $(".RideIDCell").each(function (index) {

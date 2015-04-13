@@ -43,8 +43,8 @@ background-color: rgb(73, 156, 74);
 .ReffreshIcon,
 .NotificationsPane {
     float: left;
-    margin: 0 0 0 0.6% !important;
-    width: 29%;
+    margin: 2.4% 1.5% -0.6% 1.5% !important;
+    width: 25%;
 }
 
 .MyRidesBtn,
@@ -59,12 +59,15 @@ background-color: rgb(73, 156, 74);
     width: 7%;
 }
 .ReffreshIcon {
-cursor: pointer;
-display: none;
-height: auto;
-left: 74px;
-top: -2px;
-width: 4.3vw;
+  cursor: pointer;
+  display: none;
+  height: auto;
+  width: 4%;
+  position: absolute;
+  background-color: rgb(243, 243, 243);
+  padding: 0.2% 1.5% !important;
+  margin: 0.5% -1% !important;
+  z-index: 200;
 }
 
 .MainPane {
@@ -80,7 +83,7 @@ width: 4.3vw;
 }
 
 .ForumPane {
-    height: 370px !important;
+    height: 370px ;
     background-color: #FFFFFF;
     border: solid 1px #CDCDCD;
     border-radius: 0 0 5px 5px;
@@ -155,8 +158,8 @@ width: 4.3vw;
 /* Rides Related */
 
 .MainMiddlePane {
-    margin: 0 1% !important;
-    width: 68% !important;
+margin: 0 2% 0 -1% !important;
+  width: 84% !important;
     /*min-height: 460px !important;*/
     /*background-color: #FFFFFF;*/
     border: solid 1px green;
@@ -695,7 +698,7 @@ margin-top: 10%;
     }
 
     .ForumPane {
-        height: 205px !important;
+        height: 205px ;
     }
 
     .ForumTitleWrapper {
@@ -804,7 +807,7 @@ margin-top: 24px;
     }
 
     .ForumPane {
-        height: 205px !important;
+        height: 205px ;
     }
 
     .ForumTitleWrapper {
@@ -906,7 +909,7 @@ margin-top: 20px;
     }
 
     .ForumPane {
-        height: 205px !important;
+        height: 205px ;
     }
 
     .ForumTitleWrapper {
@@ -1016,7 +1019,7 @@ margin-top: 43px;
     }
 
     .ForumPane {
-        height: 290px !important;
+        height: 290px ;
     }
 
     .ForumTitleWrapper {
@@ -1112,7 +1115,7 @@ margin-top: 24%;
     }
 
     .ForumPane {
-        height: 302px !important;
+        height: 302px ;
     }
 
     .MainPane {
@@ -1204,7 +1207,7 @@ margin-top: 19.5%;
     }
 
     .ForumPane {
-        height: 325px !important;
+        height: 325px ;
     }
 
     .MainPane {
@@ -1293,7 +1296,7 @@ margin-top: 17%;
     }
 
     .ForumPane {
-        height: 332px !important;
+        height: 332px ;
     }
 
     .MainPane {

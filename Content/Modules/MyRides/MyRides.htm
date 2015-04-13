@@ -54,3 +54,10 @@
         <div id="CompanyDeatils" class="CompanyDeatilsPane"></div>
     </div>
 </div>
+<script type="text/javascript">
+   $( document ).ready(function() {
+    var heightPanel = $(".ui-overlay-a").height() - $("#topBar").height() - $(".Banner1").height() - $(".NewsFlash").height() - 110;
+	$(".RidesPane").css("height",heightPanel);
+	$(".ForumPane").css("height",heightPanel - $("#Radio1").height() + 30 );
+	}); 
+</script>
