@@ -39,6 +39,16 @@ var dal ={
         getCities: function(filter, cb){
             db.collection("Cities").find({city:{$regex: filter}}).toArray(cb);
         },
+        getRides: function(filter, cb){
+            var date = new Date();
+            date.setHours(date.getHours() + (date.getTimezoneOffset() / -60));
+            db.collection("Rides").find(
+                {
+                    isApproved: false,
+                    aviliableDateObj: {$gt: date}
+                }
+            ).toArray(cb);
+        },
         getUrlPull: function(cb){
                 var pages = db.collection("Pages")
                 var p=[];

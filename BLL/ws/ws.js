@@ -203,9 +203,10 @@ var ws = {
     },
     login: function (loginInfo, cb) {
         aMember.login(loginInfo.username, loginInfo.password, function (err, data) {
-            var jData = null
-            if (data)
+            var jData = null;
+            if (data){
                 jData = JSON.parse(data);
+            }
             if (jData && jData.ok) {
                 dal.findOne('BusCompany', { _id: jData.user_id }, { _id: 1, username: 1, hash: 1, firstName: 1, lastName: 1, "dtl.companyName":1,favi:1 }, function (err, d) {
                     if (d) {
@@ -360,4 +361,8 @@ module.exports.isLogedIn = function (request){
                , hash = request.cookies['h'];
    //return true;
     return (username && users[username] == hash);
-}
+};
+
+module.exports.login = ws.login;
+
+

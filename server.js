@@ -2,6 +2,7 @@ var express = require('express');
 var fs = require('fs');
 var app = express();
 var http = require('http');
+var cors = require('cors');
 var server = http.createServer(app);
 var config = require("./settings/config.js");
 var qsp = require("querystring");
@@ -30,6 +31,10 @@ if(config.autoPack){
 var ws =  require('./BLL/ws/ws');
 app.use(express.cookieParser());
 app.use(express.bodyParser());
+var corsOptions = {
+  origin: 'http://localhost:9000'
+};
+app.use(cors(corsOptions));
 app.use('/min', express.static(__dirname + '/Client/public/Min'));
 app.use('/images', express.static(__dirname + '/Client/public/Images'));
 app.use('/jquery', express.static(__dirname + '/Client/public/jquery'));
@@ -50,6 +55,43 @@ var io = require('socket.io').listen(server);
 
 app.get('/ping.html', function(request, response){
     response.send('all is well. jud.');
+});
+
+app.post('/rest/login', function(req, res){
+    var user = req.body;
+    ws.login(user, function(err, data){
+        console.log(data);
+        if(data){
+            res.json({
+                err: err,
+                data: data
+            });
+        }else{
+            res.status(404).send('User not found');
+        }
+
+    })
+});
+
+app.get('/rest/user', function(req, res){
+    if(req.headers['x-token']){
+        var hash = req.headers['x-token'];
+        dal.findOne('BusCompany', {hash: hash}, {}, function(err, data){
+            res.json({
+                err: err,
+                data: data
+            });
+        });
+    }
+});
+
+app.get('/rest/rides', function(req, res){
+    var filter = {
+        username: req.username
+    };
+    dal.getRides(filter, function(err, data){
+        res.json(data);
+    });
 });
 
 app.get('/EctMail.html', function(request, response){
