@@ -6,6 +6,7 @@ var cors = require('cors');
 var server = http.createServer(app);
 var config = require("./settings/config.js");
 var qsp = require("querystring");
+var extend = require("extend");
 
 var mailer = require("./BLL/Mailer.js");
 var Jobs = require("./BLL/Jobs.js");
@@ -85,10 +86,13 @@ app.get('/rest/user', function(req, res){
     }
 });
 
-app.get('/rest/rides', function(req, res){
-    var filter = {
+app.post('/rest/rides', function(req, res){
+    console.log(req.body);
+    var filter = req.body;
+    var serverFilter = {
         username: req.username
     };
+    extend(filter, serverFilter);
     dal.getRides(filter, function(err, data){
         res.json(data);
     });

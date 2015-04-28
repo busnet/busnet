@@ -3,6 +3,8 @@ var Mongolian = require("mongolian")
 var config = require("../settings/config.js");
 var server = new Mongolian(config.db.server);
 var db = server.db(config.db.name)
+var moment = require('moment');
+var extend = require('extend');
 
 
 function getNewID(collection,cb) {
@@ -40,14 +42,22 @@ var dal ={
             db.collection("Cities").find({city:{$regex: filter}}).toArray(cb);
         },
         getRides: function(filter, cb){
-            var date = new Date();
-            date.setHours(date.getHours() + (date.getTimezoneOffset() / -60));
-            db.collection("Rides").find(
-                {
-                    isApproved: false,
-                    aviliableDateObj: {$gt: date}
-                }
-            ).toArray(cb);
+            var dataFilter = {
+                isApproved: false
+            };
+            if(filter && filter.aviliableDateObj){
+                var date = moment(filter.aviliableDateObj);
+                var dateFrom = moment(date).startOf('day').toDate();
+                var dateTo = moment(date).add(1, 'd').startOf('day').toDate();
+                filter.aviliableDateObj = {$gte: dateFrom, $lt:  dateTo};
+            }else{
+                var date = moment();
+                date.utcOffset(2);
+                //date.setHours(date.getHours() + (date.getTimezoneOffset() / -60));
+                filter.aviliableDateObj = {$gte: date.startOf('day').toDate()};
+            }
+            extend(dataFilter, filter);
+            db.collection("Rides").find(dataFilter).toArray(cb);
         },
         getUrlPull: function(cb){
                 var pages = db.collection("Pages")
