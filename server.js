@@ -61,7 +61,6 @@ app.get('/ping.html', function(request, response){
 app.post('/rest/login', function(req, res){
     var user = req.body;
     ws.login(user, function(err, data){
-        console.log(data);
         if(data){
             res.json({
                 err: err,
@@ -87,13 +86,24 @@ app.get('/rest/user', function(req, res){
 });
 
 app.post('/rest/rides', function(req, res){
-    console.log(req.body);
     var filter = req.body;
     var serverFilter = {
         username: req.username
     };
     extend(filter, serverFilter);
     dal.getRides(filter, function(err, data){
+        res.json(data);
+    });
+});
+
+app.post('/rest/areas', function(req, res){
+    dal.getAreas(function(err, data){
+        res.json(data);
+    });
+});
+
+app.post('/rest/vehicles', function(req, res){
+    dal.getVehicles(function(err, data){
         res.json(data);
     });
 });

@@ -72,6 +72,9 @@ var dal ={
         getAreas: function (cb) {
             db.collection("Area").find().toArray(cb);
         },
+        getVehicles: function (cb) {
+            db.collection("VehicleTypes").find().toArray(cb);
+        },
         getPhoneNumbers: function(exclude_user, cb){
             var data = db.collection("BusCompany");
             var numbers=[];
