@@ -101,7 +101,7 @@ var dal ={
             db.collection("VehicleTypes").find().toArray(cb);
         },
         getRideTypes: function(cb){
-            db.collection("rideTypes").find().toArray(cb);
+            db.collection("RideTypes").find().toArray(cb);
         },
         getPhoneNumbers: function(exclude_user, cb){
             var data = db.collection("BusCompany");
