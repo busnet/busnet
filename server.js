@@ -108,6 +108,12 @@ app.post('/rest/vehicles', function(req, res){
     });
 });
 
+app.post('/rest/ridetypes', function(req, res){
+    dal.getRideTypes(function(err, data){
+        res.json(data);
+    });
+});
+
 app.get('/EctMail.html', function(request, response){
       var uri = url.parse(request.url,true);    
     var tmplate = uri.query['t'];

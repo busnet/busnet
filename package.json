@@ -13,17 +13,18 @@
   },
   "dependencies": {
     "cheerio": "~0.13.1",
+    "cors": "^2.5.3",
     "ect": "~0.5.6",
     "emailjs-plus": "~0.3.4",
     "express": "~3.4.7",
+    "extend": "^2.0.1",
+    "lodash": "^3.8.0",
     "moment": "^2.9.0",
     "mongolian": "~0.1.18",
     "needle": "^0.8.2",
     "request": "^2.36.0",
     "socket.io": "~1.0.4",
     "windows-1255": "~0.1.2",
-    "xml-simple": "0.0.1",
-    "cors": "^2.5.3",
-    "extend": "^2.0.1"
+    "xml-simple": "0.0.1"
   }
 }

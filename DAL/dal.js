@@ -5,6 +5,7 @@ var server = new Mongolian(config.db.server);
 var db = server.db(config.db.name)
 var moment = require('moment');
 var extend = require('extend');
+var _ = require("lodash");
 
 
 function getNewID(collection,cb) {
@@ -49,15 +50,39 @@ var dal ={
                 var date = moment(filter.aviliableDateObj);
                 var dateFrom = moment(date).startOf('day').toDate();
                 var dateTo = moment(date).add(1, 'd').startOf('day').toDate();
-                filter.aviliableDateObj = {$gte: dateFrom, $lt:  dateTo};
+                dataFilter.aviliableDateObj = {$gte: dateFrom, $lt:  dateTo};
             }else{
                 var date = moment();
                 date.utcOffset(2);
-                //date.setHours(date.getHours() + (date.getTimezoneOffset() / -60));
-                filter.aviliableDateObj = {$gte: date.startOf('day').toDate()};
+                dataFilter.aviliableDateObj = {$gte: date.startOf('day').toDate()};
             }
-            extend(dataFilter, filter);
-            db.collection("Rides").find(dataFilter).toArray(cb);
+            if(!_.isEmpty(filter.selectedVehicles)){
+                var vehicles = _.map(filter.selectedVehicles, function(item){
+                    return item.id;
+                });
+                dataFilter.vehicleType = {$in: vehicles};
+            }
+            if(!_.isEmpty(filter.selectedAreas)){
+                var areas = _.map(filter.selectedAreas, function(item){
+                    return item.id;
+                });
+                db.collection('Area').find({_id: {$in: areas}}).toArray(function(err, data){
+                    var cities = [];
+                    _.forEach(data, function(item){
+                        _.forEach(_.words(item.cities), function(item){
+                            cities.push(_.parseInt(item));
+                        });
+                    });
+                    console.log(cities);
+                    //dataFilter.cityID = {$in: cities};
+                    dataFilter.$or = [{cityID:{$in: cities}},{dstCityID:{$in: cities}}];
+                    db.collection("Rides").find(dataFilter).toArray(cb);
+                    console.log(dataFilter);
+                });
+            }else{
+                console.log(dataFilter);
+                db.collection("Rides").find(dataFilter).toArray(cb);
+            }
         },
         getUrlPull: function(cb){
                 var pages = db.collection("Pages")
@@ -74,6 +99,9 @@ var dal ={
         },
         getVehicles: function (cb) {
             db.collection("VehicleTypes").find().toArray(cb);
+        },
+        getRideTypes: function(cb){
+            db.collection("rideTypes").find().toArray(cb);
         },
         getPhoneNumbers: function(exclude_user, cb){
             var data = db.collection("BusCompany");
