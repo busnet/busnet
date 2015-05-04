@@ -102,6 +102,7 @@ app.post('/rest/areas', function(req, res){
     });
 });
 
+
 app.post('/rest/vehicles', function(req, res){
     dal.getVehicles(function(err, data){
         res.json(data);
@@ -110,6 +111,14 @@ app.post('/rest/vehicles', function(req, res){
 
 app.post('/rest/ridetypes', function(req, res){
     dal.getRideTypes(function(err, data){
+        res.json(data);
+    });
+});
+
+app.post('/rest/cities', function(req, res){
+    var filter = req.body.query;
+    dal.getCities(filter, function(err, data){
+        console.log(data);
         res.json(data);
     });
 });
