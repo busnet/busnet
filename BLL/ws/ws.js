@@ -31,7 +31,8 @@ var ws = {
             ride.companyID = d._id;
             ride.company = d.dtl.companyName;
             ride.isApproved = false;
-                        
+            
+            console.log(ride.aviliableDate);
             var dateString = ride.aviliableDate.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
             var year = parseInt(dateString[3]);
             var month = parseInt(dateString[2]) - 1;
@@ -364,5 +365,6 @@ module.exports.isLogedIn = function (request){
 };
 
 module.exports.login = ws.login;
+module.exports.addRide = ws.addRide;    
 
 

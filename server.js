@@ -7,6 +7,8 @@ var server = http.createServer(app);
 var config = require("./settings/config.js");
 var qsp = require("querystring");
 var extend = require("extend");
+var _ = require("lodash");
+var moment = require("moment");
 
 var mailer = require("./BLL/Mailer.js");
 var Jobs = require("./BLL/Jobs.js");
@@ -118,9 +120,35 @@ app.post('/rest/ridetypes', function(req, res){
 app.post('/rest/cities', function(req, res){
     var filter = req.body.query;
     dal.getCities(filter, function(err, data){
-        console.log(data);
         res.json(data);
     });
+});
+
+app.post('/rest/ride', function(req, res){
+    if(req.headers['x-token']){
+        var hash = req.headers['x-token'];
+        dal.findOne('BusCompany', {hash: hash}, {}, function(err, data){
+            var body = req.body;
+            var ride = {
+                username: data._id,
+                h: hash,
+                type: body.ride_type.id,
+                area: body.vacant_area,
+                aviliableDate: moment(body.vacant_date).format('DD/MM/YYYY'),
+                aviliableHour: moment(body.vacant_date).format('HH:mm'),
+                vehicleType: body.vehicle.id,
+                vehicleNumber: body.vehicle_count,
+                returnDate: moment(body.return_date).format('DD/MM/YYYY'),
+                destination: body.return_area,
+                extraDetails: body.remarks
+            }
+            ws.addRide(ride, function(err, data){
+                res.json({success: 'ride successfully added'});
+            })
+        });
+    }else{
+       res.json({error: 'you are not authorized'}); 
+    }
 });
 
 app.get('/EctMail.html', function(request, response){
