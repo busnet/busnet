@@ -42,6 +42,9 @@ var dal ={
         getCities: function(filter, cb){
             db.collection("Cities").find({city:{$regex: filter}}).toArray(cb);
         },
+        getRide: function(filter, cb){
+            db.collection('Rides').findOne(filter,cb);
+        },
         getRides: function(filter, cb){
             var dataFilter = {
                 isApproved: false

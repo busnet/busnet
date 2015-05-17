@@ -124,6 +124,13 @@ app.post('/rest/cities', function(req, res){
     });
 });
 
+app.get('/rest/ride/:rideid', function(req, res){
+    var rideId = req.params.rideid;
+    dal.getRide({_id: parseInt(rideId)}, function(err, data){
+        res.json(data);
+    })
+});
+
 app.post('/rest/ride', function(req, res){
     if(req.headers['x-token']){
         var hash = req.headers['x-token'];
@@ -145,7 +152,7 @@ app.post('/rest/ride', function(req, res){
             ws.addRide(ride, function(err, data){
                 res.json({success: 'ride successfully added'});
             })
-        });
+        } );
     }else{
        res.json({error: 'you are not authorized'}); 
     }
