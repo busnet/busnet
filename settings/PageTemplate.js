@@ -31,6 +31,7 @@ var sm = {
                            , Criteria: {
                                isApproved: { $ne: true }, username: { $ne: { $$Param: { From: "Cookie", Key: "username" } } }
                                , vehicleType: { $$Param: { From: "QueryString", Key: "vt" } }
+							   , type: { $$Param: { From: "QueryString", Key: "rt" } }
                                , aviliableDate: { $$Param: { From: "QueryString", Key: "ad" } }
                                , aviliableDateObj: { $gte: { $$Param: { From: "System", Key: "today" } } }
                                , area: { $$Param: { From: "QueryString", Key: "area" } }

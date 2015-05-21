@@ -105,6 +105,8 @@ function InitSearch() {
 
     if (ng.QS['vt'])
         $('.sVehicleType').val(decodeURIComponent(ng.QS['vt']));
+	if (ng.QS['rt'])
+		$('.RideType').val(decodeURIComponent(ng.QS['rt']));
     if (ng.QS['ad'])
         $('#dateInput').val(ng.QS['ad']);
     if (ng.QS['area']) {
@@ -164,6 +166,11 @@ function filter() {
     var url =  window.location.pathname + "?s=1";
     if(type)
         url+= '&vt='+type;
+		
+	var rType = $('.RideType').val();
+	if ( rType)
+		url+= '&rt=' + rType;
+		
     var ad = $('#dateInput').val();
     if (ad)
         url += '&ad=' + ad;

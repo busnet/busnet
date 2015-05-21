@@ -22,6 +22,13 @@
 			
             <div class="DateLbl">רכב</div>
 			
+			<select class="RideType" data-role="none" onchange="filter()">
+            <option value="">הכל</option>
+            <option value="1">משאית פנויה</option>
+            <option value="2">קבלנות משנה</option>
+            </select>
+            <div class="DateLbl">סוג נסיעה</div>
+			
             <input id="area" type="hidden">
             <ul class="ui-listview" id="CityList" data-filter-placeholder="סינון לפי עיר" data-filter="true" data-filter-reveal="true" data-role="listview" dir="rtl" style="direction:rtl !important; ">
                 <!--  <ul data-filter="true" data-filter-reveal="true" data-role="listview" dir="rtl" style="direction:ltr !important">-->
@@ -1250,4 +1257,10 @@
         </table>
     </div>
 </div>
-
+<script type="text/javascript">
+   $( document ).ready(function() {
+    var heightPanel = $(".ui-overlay-a").height() - $("#topBar").height() - $(".Banner1").height() - $(".NewsFlash").height() - 120;
+	$(".RidesPane").css("height",heightPanel);
+	$(".ForumPane").css("height",heightPanel - $("#Radio1").height() + 30 );
+	}); 
+</script>

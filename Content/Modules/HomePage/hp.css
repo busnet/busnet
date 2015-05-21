@@ -43,8 +43,8 @@ background-color: rgb(73, 156, 74);
 .ReffreshIcon,
 .NotificationsPane {
     float: left;
-    margin: 0 0 0 0.6% !important;
-    width: 29%;
+    margin: 2.4% 1.5% -0.6% 1.5% !important;
+    width: 25%;
 }
 
 .MyRidesBtn,
@@ -59,12 +59,15 @@ background-color: rgb(73, 156, 74);
     width: 7%;
 }
 .ReffreshIcon {
-cursor: pointer;
-display: none;
-height: auto;
-left: 74px;
-top: -2px;
-width: 4.3vw;
+  cursor: pointer;
+  display: none;
+  height: auto;
+  width: 4%;
+  position: absolute;
+  background-color: rgb(243, 243, 243);
+  padding: 0.2% 1.5% !important;
+  margin: 0.5% -1% !important;
+  z-index: 200;
 }
 
 .MainPane {
@@ -80,7 +83,7 @@ width: 4.3vw;
 }
 
 .ForumPane {
-    height: 370px !important;
+    height: 370px ;
     background-color: #FFFFFF;
     border: solid 1px #CDCDCD;
     border-radius: 0 0 5px 5px;
@@ -155,8 +158,8 @@ width: 4.3vw;
 /* Rides Related */
 
 .MainMiddlePane {
-    margin: 0 1% !important;
-    width: 68% !important;
+margin: 0 2% 0 -1% !important;
+  width: 84% !important;
     /*min-height: 460px !important;*/
     /*background-color: #FFFFFF;*/
     border: solid 1px green;
@@ -351,97 +354,63 @@ width: 4.3vw;
 
     .Rides_T tr:nth-child(even) td {
         background-color: #D6D9EC;
-		border-bottom: 0px solid #b4b4b4;
+		border-bottom: 1px solid #b4b4b4;
     }
-	.rideRowExtra > td {
-height: 18px !important;
-  background-color: rgb(214, 217, 236);
-  text-align: right !important;
-  padding: 0px 2% 6px 2% !important;
-  font-size: 95% !important;
-  color: rgb(76, 102, 163);
-  border-bottom: 1px solid #b4b4b4;
+
+	.rideRowExtra {
+	text-align: right !important;
+	  padding-right: 1%;
+	  color: rgb(199, 0, 0);
 	}
-
 /* Search Pane */
-
-/*.SearchAreaPane {
-    float: left;    
-    width: 17% !important;
-    min-height: 485px;    
-    direction: rtl;
-    overflow: hidden;
+#cityFilter ::-webkit-input-placeholder {
+  color: #fff;
+  text-shadow: 0 0 0;
 }
 
-.SearchInputWrapper {
-    height: 45px;
-    text-align: right;
-    background: url('../Images/SearchIcon.jpg') left center no-repeat #00BEFC;
+#cityFilter {
+  width: 17%;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  margin-right: -2%;
+  box-shadow: 0 0 0;
+}
+#cityFilter > div  {
+  margin-top: 1px;
+}
+#cityFilter #sourcefilter {
+  float: right;
+  color: #fff;
+  padding: 0;
+  margin: 0;
+  text-align: right !important;
+}
+#cityFilter .ui-input-search:after {
+margin-top: 14px;
+right: 2.3125em;
 }
 
-    .SearchInputWrapper div {
-        background-color: inherit !important;
-        border-color: rgba(0, 0, 0, 0) !important;
-        border-radius: 0 !important;
-        border-style: none !important;
-        border-width: 0 !important;
-        box-shadow: none !important;
-        margin: 0 !important;
-        width: 80%;
-        float: right;
-    }
-
-.SearchBtn {
-    width: 45px;
-    height: 45px;
-    display: inline-block;
-    cursor: pointer;
-    float: left;
+#cityFilter > div > a {
+  top: 19px;
+}
+#cityFilter > ul > li.ui-li-divider {
+  font-size: 102%;
+  font-weight: 700;
+  cursor: default;
+  outline: 0;
+  text-align: right;
+  direction: rtl;
+  color: rgb(73, 156, 74);
+}
+#cityFilter > ul > li > a {
+text-align: right;
 }
 
-.SearchInput {
-    color: #000000;
-    font-size: 22px;
-    background-color: transparent;
-    border: 0;
-    text-align: right;
-    height: 41px;
-    padding: 2px 15px 2px 0;
-    min-height: 0 !important;
-    text-align: right !important;
-    text-shadow: none !important;
+#cityFilter #area {
+color: #fff;
+  text-shadow: 0 0 0;
 }
-
-.SearchResultsPane {
-    height: 450px;
-    overflow-y: auto;
-}
-
-.CitiesList {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-    .CitiesList li {
-        height: 34px;
-        padding: 6px 15px 0 0;
-        border-bottom: solid 2px #757575;
-        color: #000000;
-        font-size: 22px;
-        text-align: right;
-    }*/
-
-/* Rides Pane */
-
-/*.RidesDetailsPane {
-    float: right;
-    width: 83% !important;
-    min-height: 500px !important;
-    background-color: #FFFFFF;
-    direction: rtl;
-    overflow: hidden;
-}*/
 
 /*************************************************************/
 
@@ -734,7 +703,7 @@ margin-top: 10%;
     }
 
     .ForumPane {
-        height: 205px !important;
+        height: 205px ;
     }
 
     .ForumTitleWrapper {
@@ -843,7 +812,7 @@ margin-top: 24px;
     }
 
     .ForumPane {
-        height: 205px !important;
+        height: 205px ;
     }
 
     .ForumTitleWrapper {
@@ -945,7 +914,7 @@ margin-top: 20px;
     }
 
     .ForumPane {
-        height: 205px !important;
+        height: 205px ;
     }
 
     .ForumTitleWrapper {
@@ -1055,7 +1024,7 @@ margin-top: 43px;
     }
 
     .ForumPane {
-        height: 290px !important;
+        height: 290px ;
     }
 
     .ForumTitleWrapper {
@@ -1151,7 +1120,7 @@ margin-top: 24%;
     }
 
     .ForumPane {
-        height: 302px !important;
+        height: 302px ;
     }
 
     .MainPane {
@@ -1243,7 +1212,7 @@ margin-top: 19.5%;
     }
 
     .ForumPane {
-        height: 325px !important;
+        height: 325px ;
     }
 
     .MainPane {
@@ -1332,7 +1301,7 @@ margin-top: 17%;
     }
 
     .ForumPane {
-        height: 332px !important;
+        height: 332px ;
     }
 
     .MainPane {
