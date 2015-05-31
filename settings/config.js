@@ -1,4 +1,4 @@
-﻿module.exports = {
+module.exports = {
     autoPack:true,
     listen:{
         host: "localhost",

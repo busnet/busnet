@@ -40,7 +40,7 @@ var sm = {
                                     , { dstCityID: { $$Param: { From: "Area", Key: "GetFaviCities", ParseFnc: '$in' } } }
                                ]
                            }
-                                , Fileds: { 'reuqests': 0 }, Options: { skip: 0, limit: 500, sort: { "aviliableDateObj": 1, "aviliableHour": 1 } }
+                                , Fileds: { 'reuqests': 0 }, Options: { skip: 0, limit: 50, sort: { "aviliableDateObj": 1, "aviliableHour": 1 } }
                        }
                    }]
                }]
@@ -64,7 +64,7 @@ var sm = {
                                username: { $$Param: { From: "Cookie", Key: "username" } }
                                , isApproved: false
                                , aviliableDateObj: { $gte: { $$Param: { From: "System", Key: "today" } } }
-                           }, Fileds: { none: 0 }, Options: { skip: 0, limit: 200, sort: { "aviliableDate": 1, "aviliableHour": 1 } }
+                           }, Fileds: { none: 0 }, Options: { skip: 0, limit: 50, sort: { "aviliableDate": 1, "aviliableHour": 1 } }
                        }
                    }]
                }]
@@ -115,7 +115,7 @@ var sm = {
                             Responder: 'DBFindResponder', Collection: 'Rides', Criteria: {
                                 isApproved: true, username: { $$Param: { From: "Cookie", Key: "username" } }
                             },
-                            Fileds: { none: 0 }, Options: { skip: 0, limit: 200 },
+                            Fileds: { none: 0 }, Options: { skip: 0, limit: 50 },
                            // ToArray: ['requests']
                         }
                     }]
@@ -138,7 +138,7 @@ var sm = {
                            // Responder: 'DBFindResponder', Collection: 'Rides', Criteria: { isApproved: true, $exists: { $$Param: { From: "Cookie", Key: "username" }, prefix: "requests" } }, Fileds: { 'reuqests': 0 }, Options: { skip: 0, limit: 20 }
                             Responder: 'DBFindResponder', Collection: 'Rides', Criteria: { isApproved: true, soldTo: { $$Param: { From: "Cookie", Key: "username" } } }
                             , Fileds: { none: 0 }
-                            , Options: { skip: 0, limit: 200 }
+                            , Options: { skip: 0, limit: 50 }
                             //, ToArray: ['requests']
                         }
                     }]
@@ -164,7 +164,7 @@ var sm = {
                                 , username: { $$Param: { From: "Cookie", Key: "username" } }
                                 , aviliableDateObj: { $gte: { $$Param: { From: "System", Key: "today" } } }
                             },
-                            Fileds: { none: 0 }, Options: { skip: 0, limit: 200, sort: { "aviliableDateObj":-1} },
+                            Fileds: { none: 0 }, Options: { skip: 0, limit: 50, sort: { "aviliableDateObj":-1} },
                             ToArray:['requests']
                         }
                     }]
@@ -183,7 +183,7 @@ var sm = {
                 },
                 Templates: [{
                     Container: '#InnerPane', Template: 'AddRide/AddRide', Js: "InitDates(); InitEditRideForm(); InitAutocomplete();",
-                    Data: { Responder: 'DBFindResponder', Collection: 'Cities', Criteria: {}, Fileds: { none: 0 }, Options: { skip: 0, limit: 2000 , sort:{"area":1, "city":1} } }
+                    Data: { Responder: 'DBFindResponder', Collection: 'Cities', Criteria: {}, Fileds: { none: 0 }, Options: { skip: 0, limit: 1300 , sort:{"area":1, "city":1} } }
                 }]
                 
             }]
@@ -402,7 +402,7 @@ var sm = {
             Data: { Responder: 'JsonResponder', Path: 'Admin/Main/main.json' },
             Templates: [{
               Container: '#SysPane', Template: 'Admin/Users/Users', Js: "",
-              Data: { Responder: 'DBFindResponder', Collection: 'BusCompany', Criteria: {}, Fileds: { none: 0 }, Options: { skip: 0, limit: 5000 } }
+              Data: { Responder: 'DBFindResponder', Collection: 'BusCompany', Criteria: {}, Fileds: { none: 0 }, Options: { skip: 0, limit: 300 } }
           }]
         }]
     },
