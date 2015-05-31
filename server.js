@@ -35,7 +35,7 @@ var ws =  require('./BLL/ws/ws');
 app.use(express.cookieParser());
 app.use(express.bodyParser());
 var corsOptions = {
-  origin: 'http://localhost:9000'
+  origin: '*'
 };
 app.use(cors(corsOptions));
 app.use('/min', express.static(__dirname + '/Client/public/Min'));
@@ -150,7 +150,13 @@ app.post('/rest/ride', function(req, res){
                 extraDetails: body.remarks
             }
             ws.addRide(ride, function(err, data){
-                res.json({success: 'ride successfully added'});
+                console.log(data);
+                res.json(
+                    {
+                        success: true,
+                        message: 'ride successfully added',
+                        rideid: data._id
+                    });
             })
         } );
     }else{
