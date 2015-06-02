@@ -808,6 +808,10 @@ top: -5px;
     }
 }
 
+.ui-mobile [data-role="page"], .ui-mobile [data-role="dialog"], .ui-page {
+    display: block;
+}
+
 @media only screen and (min-width: 1900px) {
     body {
         font-size: 0.95em !important;
