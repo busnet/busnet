@@ -358,9 +358,13 @@ margin: 0 2% 0 -1% !important;
     }
 
 	.rideRowExtra {
-	text-align: right !important;
 	  padding-right: 1%;
 	  color: rgb(199, 0, 0);
+	}
+	.rideRowExtra td {
+  text-align: right !important;
+  padding-right: 1%;
+  direction: rtl;
 	}
 /* Search Pane */
 #cityFilter ::-webkit-input-placeholder {
@@ -401,10 +405,15 @@ right: 2.3125em;
   outline: 0;
   text-align: right;
   direction: rtl;
-  color: rgb(73, 156, 74);
+  color: #fff;
+  background-color: rgb(73, 156, 74);
+  border-color: #747474;
 }
 #cityFilter > ul > li > a {
-text-align: right;
+  text-align: right;
+  background-color: #fff;
+  color: #000;
+  border-color: rgb(124, 124, 124);
 }
 
 #cityFilter #area {
@@ -527,7 +536,7 @@ tr.CurrentRow {
     cursor: pointer;
     display: inline-block;
     float: left;
-    font-size: 129%;
+    font-size: 107%;
     font-weight: normal;
     height: 31px;
     margin: 0;
@@ -684,6 +693,9 @@ margin-top: 10%;
 .ui-datepicker-title {
     line-height: 1.8;
 }
+
+#rideRowExtra_204 > td
+
 /*************************************************************/
 
 

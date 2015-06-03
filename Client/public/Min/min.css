@@ -15,6 +15,7 @@ body {
     margin: auto;
     position: static;
 	background-color: #fff !important;
+	display:block;
 }
 
 body a {
@@ -1179,9 +1180,11 @@ margin: 0 2% 0 -1% !important;
     }
 
 	.rideRowExtra {
-	text-align: right !important;
 	  padding-right: 1%;
 	  color: rgb(199, 0, 0);
+	}
+	.rideRowExtra td {
+	text-align: right !important;
 	}
 /* Search Pane */
 #cityFilter ::-webkit-input-placeholder {
@@ -1222,10 +1225,15 @@ right: 2.3125em;
   outline: 0;
   text-align: right;
   direction: rtl;
-  color: rgb(73, 156, 74);
+  color: #fff;
+  background-color: rgb(73, 156, 74);
+  border-color: #747474;
 }
 #cityFilter > ul > li > a {
-text-align: right;
+  text-align: right;
+  background-color: #fff;
+  color: #000;
+  border-color: rgb(124, 124, 124);
 }
 
 #cityFilter #area {
@@ -1505,6 +1513,9 @@ margin-top: 10%;
 .ui-datepicker-title {
     line-height: 1.8;
 }
+
+#rideRowExtra_204 > td
+
 /*************************************************************/
 
 
@@ -2335,15 +2346,16 @@ color: #ffffff;
 }
 .AddRideTitleWrapper .ui-input-search input {
   width: 60%;
-  margin-top: -11.5%;
+  margin-top: -9.5%;
   margin-right: 30%;
 }
 
 .AddRideTitleWrapper .ui-listview .ui-li-divider {
   padding: .5em 28px;
-  color: rgb(73, 156, 74);
-  text-align:right;
+  background-color: rgb(73, 156, 74);
+  text-align: right;
   width: 100%;
+  color: #fff;
 }
 
 .ui-shadow {
@@ -2362,6 +2374,8 @@ color: #ffffff;
   text-align: right;
   direction: rtl;
   width: 100%;
+  border-color: #C8C8C8;
+  color: #393939;
 }
 
 .AddRideTitleWrapper .filterable {
@@ -2376,7 +2390,9 @@ color: #ffffff;
   min-height: 488px;
 }
 
+.AddRideTitleWrapper .ui-listview li {
 
+} 
 @media only screen and (min-width: 1000px) and (max-width: 1100px) {
     .AddFormPane div select {
         height: 20px;

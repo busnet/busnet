@@ -15,6 +15,7 @@ body {
     margin: auto;
     position: static;
 	background-color: #fff !important;
+	display:block;
 }
 
 body a {
