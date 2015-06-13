@@ -63,13 +63,14 @@ app.get('/ping.html', function(request, response){
 app.post('/rest/login', function(req, res){
     var user = req.body;
     ws.login(user, function(err, data){
+        console.log('login-data: ', data);
         if(data){
             res.json({
                 err: err,
                 data: data
             });
         }else{
-            res.status(404).send('User not found');
+            res.status(403).send('User not found');
         }
 
     })
