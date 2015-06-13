@@ -121,6 +121,9 @@ var dal ={
                 }
                 },function(){ cb(null, numbers)});
         },
+        getDeviceTokens: function(exclude_user, cb){
+            db.collection('deviceToken').find({userId:{$ne:exclude_user}}).toArray(cb);
+        },
         SaveDoc: function(collection,doc,cb){
             if(!doc._id){
                 var cbl = cb;
@@ -131,6 +134,9 @@ var dal ={
             }
             else
                 db.collection(collection).save(doc,cb);
+        },
+        Save: function(collection, data, cb){
+            db.collection(collection).save(data,cb);
         },
         findOne:function(collection,criteria,fileds,cb){
             db.collection(collection).findOne(criteria,fileds,cb);

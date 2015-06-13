@@ -21,7 +21,7 @@ module.exports = {
     },
     notifications:
     {
-        url: "ec2-52-24-21-6.us-west-2.compute.amazonaws.com";
+        url: "ec2-52-24-21-6.us-west-2.compute.amazonaws.com"
     }
 }
 
