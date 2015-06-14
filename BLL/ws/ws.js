@@ -7,6 +7,7 @@ var rss = require("../Rss.js");
 var request = require("request");
 var needle = require("needle");
 var config = require("../../settings/config");
+var _ = require('lodash');
 
 /*
  wsReq ={ 
@@ -31,7 +32,8 @@ var ws = {
             ride.companyID = d._id;
             ride.company = d.dtl.companyName;
             ride.isApproved = false;
-                        
+            
+            console.log(ride.aviliableDate);
             var dateString = ride.aviliableDate.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
             var year = parseInt(dateString[3]);
             var month = parseInt(dateString[2]) - 1;
@@ -42,31 +44,35 @@ var ws = {
             ride.fix1 = 1;
            
             dal.SaveDoc('Rides', ride, cb);
-            //ws.sendWasup(ride);
+            ws.sendNotification(ride);
         });
-        
     },
-    sendWasup: function(ride){
-        var txt;
+    sendNotification: function(ride){
+        var msg = null;
         switch(ride.type){
             case "1":
-                txt = 'הוזרמה נסיעה חדשה בBusNet מ' + ride.area + ' אל ' + ride.destination + ' בתאריך ' + ride.aviliableDate + '. פרטים נוספים במערכת. תודה.';
+                msg = {
+                    title: 'הוזרמה נסיעה חדשה בBusNet',
+                    body: 'הוזרמה נסיעה חדשה בBusNet מ' + ride.area + ' אל ' + ride.destination + ' בתאריך ' + ride.aviliableDate + '. פרטים נוספים במערכת. תודה.'
+                }
                 break;
             case "2":
-                txt = 'הוזרמה בקשה בBusNet ל' + ride.vehicleType +' מ'+ ride.area + ' ל' + ride.destination + ' בתאריך ' + ride.aviliableDate + '. פרטים נוספים במערכת. תודה.';
+                msg = {
+                    title: 'הוזרמה בקשה בBusNet',
+                    body: 'הוזרמה בקשה בBusNet ל' + ride.vehicleType +' מ'+ ride.area + ' ל' + ride.destination + ' בתאריך ' + ride.aviliableDate + '. פרטים נוספים במערכת. תודה.'
+                }
                 break;
         }
-        var numbers = [];
-        dal.getPhoneNumbers(ride.companyID, function(err, data){
-            var numbers = data;
-            var data = {msg: txt, phones: numbers};
-            var options = {json:true};
-            needle.post(config.wasup.url, data, options, function(err, res, body){
-                if (!err && res.statusCode == 200){
-                    console.log('sent wasup to: ' + numbers + ', msg:' + txt);
-                }else{
-                    console.log(err);
-                }
+        dal.getDeviceTokens(ride.companyID, function(err, devices){
+            _.forEach(devices, function(device){
+                msg.deviceToken = device.token;
+                needle.post(config.notification.url, msg, {json:true}, function(err, res, body){
+                    if (!err && res.statusCode == 200){
+                        console.log('sent wasup to: ' + numbers + ', msg:' + txt);
+                    }else{
+                        console.log(err);
+                    }
+                });
             });
         });
     },
@@ -202,15 +208,59 @@ var ws = {
         });
     },
     login: function (loginInfo, cb) {
+        var setToken = function(data, cb){
+            var userDevice = {
+                hash: data.hash,
+                userId: data._id,
+                type: 'google',
+                deviceToken: loginInfo.google.regid
+            };
+            dal.findOne('deviceToken', userDevice, function(err, device){
+                if(!device){
+                    dal.Save('deviceToken', userDevice, function(err, newDevice){
+                        cb(err, data);
+                        return;
+                    });
+                }
+                cb(null, data);
+            });
+        };
+        dal.findOne('BusCompany', { username: loginInfo.username, password: loginInfo.password }, { _id: 1, username: 1, hash: 1, firstName: 1, lastName: 1, "dtl.companyName":1,favi:1 }, function (err, d) {
+            if (d) {
+                if(loginInfo.google){
+                    setToken(d, cb);
+                }else{
+                    cb(null, d);
+                }
+            }else{
+                cb('User not found', null);
+            }
+        });
+    },
+    loginWithThirdParty: function (loginInfo, cb) {
         aMember.login(loginInfo.username, loginInfo.password, function (err, data) {
-            var jData = null
-            if (data)
+            var setToken = function(data, cb){
+                var userDevice = {
+                    hash: data.hash,
+                    type: 'google',
+                    deviceToken: loginInfo.google.regid
+                };
+                dal.findOne('deviceToken', userDevice, function(err, data){
+                    if(!data){
+                        dal.SaveDoc('deviceToken', userDevice, cb);
+                    }
+                    cb(null, data);
+                });
+            };
+            var jData = null;
+            if (data){
                 jData = JSON.parse(data);
+            }
             if (jData && jData.ok) {
                 dal.findOne('BusCompany', { _id: jData.user_id }, { _id: 1, username: 1, hash: 1, firstName: 1, lastName: 1, "dtl.companyName":1,favi:1 }, function (err, d) {
                     if (d) {
                         users[loginInfo.username] = d.hash;
-                        cb(err, d);
+                        setToken(d, cb);
                     }
                     else {
                         var busCompany = loginInfo;
@@ -220,7 +270,7 @@ var ws = {
                         busCompany.firstName = jData.name_f;
                         busCompany.lastName = jData.name_l;
                         users[loginInfo.username] = busCompany.hash;
-                        dal.SaveDoc('BusCompany', busCompany, cb);
+                        dal.SaveDoc('BusCompany', busCompany, setToken(busCompany, cb));
                     }
                 });
             } else { // login falid
@@ -360,4 +410,9 @@ module.exports.isLogedIn = function (request){
                , hash = request.cookies['h'];
    //return true;
     return (username && users[username] == hash);
-}
+};
+
+module.exports.login = ws.login;
+module.exports.addRide = ws.addRide;    
+
+

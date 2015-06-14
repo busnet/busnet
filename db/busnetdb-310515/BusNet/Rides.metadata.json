@@ -1,0 +1,1 @@
+{ "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "name" : "_id_", "ns" : "BusNet.Rides" }, { "v" : 1, "key" : { "aviliableDateObj" : 1, "isApproved" : 1, "vehicleType" : 1, "area" : 1, "cityID" : 1, "dstCityID" : 1 }, "name" : "aviliableDateObj_1_isApproved_1_vehicleType_1_area_1_cityID_1_dstCityID_1", "ns" : "BusNet.Rides" } ] }
