@@ -21,7 +21,10 @@ module.exports = {
     },
     notifications:
     {
-        url: "ec2-52-24-21-6.us-west-2.compute.amazonaws.com"
+        host: "81.218.164.217",
+        port: "8080",
+        path: "/",
+        url: "http://81.218.164.217:8080"
     }
 }
 

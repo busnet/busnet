@@ -5,9 +5,12 @@ var crypto = require('crypto');
 var mailer = require("../Mailer.js");
 var rss = require("../Rss.js");
 var request = require("request");
-var needle = require("needle");
+//var needle = require("needle");
+var request = require("request");
 var config = require("../../settings/config");
 var _ = require('lodash');
+var http = require('http');
+var querystring = require('querystring');
 
 /*
  wsReq ={ 
@@ -66,13 +69,44 @@ var ws = {
         dal.getDeviceTokens(ride.companyID, function(err, devices){
             _.forEach(devices, function(device){
                 msg.deviceToken = device.deviceToken;
-                needle.post(config.notifications.url, msg, {json:true}, function(err, res, body){
+                msg.provider = 'google';
+                request.post(
+                    config.notifications.url,
+                    { form: msg },
+                    function (error, response, body) {
+                        if (!error && response.statusCode == 200) {
+                            console.log(body)
+                        }
+                    }
+                );
+                /*var post_data = JSON.stringify(msg);
+                var post_options = {
+                      host: config.notifications.host,
+                      port: config.notifications.port,
+                      path: config.notifications.path,
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/x-www-form-urlencoded',
+                          'Content-Length': post_data.length
+                      }
+                  };
+                post_req = http.request(post_options, function(res) {
+                      res.setEncoding('utf8');
+                      res.on('data', function (chunk) {
+                          console.log('Response: ' + chunk);
+                      });
+                  });
+                // post the data
+                post_req.write(post_data);
+                post_req.end();
+*/
+                /*needle.post(config.notifications.url, JSON.stringify(msg), {}, function(err, res, body){
                     if (!err && res.statusCode == 200){
                         console.log('sent notification: ' + msg);
                     }else{
                         console.log(err);
                     }
-                });
+                });*/
             });
         });
     },
