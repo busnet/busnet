@@ -48,15 +48,15 @@ var ws = {
         });
     },
     sendNotification: function(ride){
-        var msg = null;
+        var msg = {};
         switch(ride.type){
-            case "1":
+            case 1:
                 msg = {
                     title: 'הוזרמה נסיעה חדשה בBusNet',
                     body: 'הוזרמה נסיעה חדשה בBusNet מ' + ride.area + ' אל ' + ride.destination + ' בתאריך ' + ride.aviliableDate + '. פרטים נוספים במערכת. תודה.'
                 }
                 break;
-            case "2":
+            case 2:
                 msg = {
                     title: 'הוזרמה בקשה בBusNet',
                     body: 'הוזרמה בקשה בBusNet ל' + ride.vehicleType +' מ'+ ride.area + ' ל' + ride.destination + ' בתאריך ' + ride.aviliableDate + '. פרטים נוספים במערכת. תודה.'
@@ -65,10 +65,10 @@ var ws = {
         }
         dal.getDeviceTokens(ride.companyID, function(err, devices){
             _.forEach(devices, function(device){
-                msg.deviceToken = device.token;
-                needle.post(config.notification.url, msg, {json:true}, function(err, res, body){
+                msg.deviceToken = device.deviceToken;
+                needle.post(config.notifications.url, msg, {json:true}, function(err, res, body){
                     if (!err && res.statusCode == 200){
-                        console.log('sent wasup to: ' + numbers + ', msg:' + txt);
+                        console.log('sent notification: ' + msg);
                     }else{
                         console.log(err);
                     }
