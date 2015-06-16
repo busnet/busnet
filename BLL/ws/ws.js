@@ -79,34 +79,6 @@ var ws = {
                         }
                     }
                 );
-                /*var post_data = JSON.stringify(msg);
-                var post_options = {
-                      host: config.notifications.host,
-                      port: config.notifications.port,
-                      path: config.notifications.path,
-                      method: 'POST',
-                      headers: {
-                          'Content-Type': 'application/x-www-form-urlencoded',
-                          'Content-Length': post_data.length
-                      }
-                  };
-                post_req = http.request(post_options, function(res) {
-                      res.setEncoding('utf8');
-                      res.on('data', function (chunk) {
-                          console.log('Response: ' + chunk);
-                      });
-                  });
-                // post the data
-                post_req.write(post_data);
-                post_req.end();
-*/
-                /*needle.post(config.notifications.url, JSON.stringify(msg), {}, function(err, res, body){
-                    if (!err && res.statusCode == 200){
-                        console.log('sent notification: ' + msg);
-                    }else{
-                        console.log(err);
-                    }
-                });*/
             });
         });
     },
@@ -259,17 +231,39 @@ var ws = {
                 cb(null, data);
             });
         };
-        dal.findOne('BusCompany', { username: loginInfo.username, password: loginInfo.password }, { _id: 1, username: 1, hash: 1, firstName: 1, lastName: 1, "dtl.companyName":1,favi:1 }, function (err, d) {
-            if (d) {
-                if(loginInfo.google){
-                    setToken(d, cb);
-                }else{
-                    cb(null, d);
-                }
+        aMember.login(loginInfo.username, loginInfo.password, function (err, data) {
+            var jData = null
+            if (data)
+                jData = JSON.parse(data);
+            if (jData && jData.ok) {
+                dal.findOne('BusCompany', { _id:jData.user_id }, { _id: 1, username: 1, hash: 1, firstName: 1, lastName: 1, "dtl.companyName":1,favi:1 }, function (err, d) {
+                    if (d) {
+                        users[loginInfo.username] = d.hash;
+                        if(loginInfo.google){
+                            setToken(d, cb);
+                        }
+                        cb(null, d);
+                    }else{
+                        var busCompany = loginInfo;
+                        busCompany._id = jData.user_id;
+                        busCompany.hash = crypto.createHash('md5').update(loginInfo.password).digest("hex");
+                        busCompany.email = jData.email;
+                        busCompany.firstName = jData.name_f;
+                        busCompany.lastName = jData.name_l;
+                        users[loginInfo.username] = busCompany.hash;
+                        dal.SaveDoc('BusCompany', busCompany, setToken(busCompany, function(err, data){
+                            if(loginInfo.google){
+                                setToken(data, cb);
+                            }else{
+                                cb(null, cb);
+                            }
+                        })); 
+                    }
+                });
             }else{
-                cb('User not found', null);
+                cb(null, null);
             }
-        });
+        });  
     },
     loginWithThirdParty: function (loginInfo, cb) {
         aMember.login(loginInfo.username, loginInfo.password, function (err, data) {
