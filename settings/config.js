@@ -21,7 +21,7 @@ module.exports = {
     },
     notifications:
     {
-        url: "http://81.218.164.217:8080"
+        url: "http://ip-172-31-33-223.us-west-2.compute.internal:8080"
     }
 }
 
