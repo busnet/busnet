@@ -6,11 +6,13 @@ var mailer = require("../Mailer.js");
 var rss = require("../Rss.js");
 var request = require("request");
 //var needle = require("needle");
-var request = require("request");
+//var request = require("request");
+var net = require('net');
 var config = require("../../settings/config");
 var _ = require('lodash');
-var http = require('http');
-var querystring = require('querystring');
+//var http = require('http');
+//var querystring = require('querystring');
+var iconv = require('iconv-lite');
 
 /*
  wsReq ={ 
@@ -66,19 +68,25 @@ var ws = {
                 }
                 break;
         }
+
         dal.getDeviceTokens(ride.companyID, function(err, devices){
-            _.forEach(devices, function(device){
-                msg.deviceToken = device.deviceToken;
-                msg.provider = 'google';
-                request.post(
-                    config.notifications.url,
-                    { form: msg },
-                    function (error, response, body) {
-                        if (!error && response.statusCode == 200) {
-                            console.log(body)
-                        }
-                    }
-                );
+            var client = net.connect({
+                host: config.notifications.host, 
+                port: config.notifications.port
+            },function() { //'connect' listener
+              console.log('connected to notification server!');
+                _.forEach(devices, function(device){
+                    msg.deviceToken = device.deviceToken;
+                    msg.provider = 'google';
+                    client.write(JSON.stringify(msg) + '\r\n');
+                });
+            });
+            client.on('data', function(err) {
+              console.log('server data:', data);
+              client.end();
+            });
+            client.on('error', function(err) {
+              console.log('server connection error:', err);
             });
         });
     },

@@ -5,7 +5,7 @@ module.exports = {
 	    port: 3002
     },
     serve:{
-        //host: "localhost",
+        //host: "10.0.0.6",
         host: "busnet-v104-env-rpphgjmzkz.elasticbeanstalk.com",
         port: 3002
     },
@@ -21,9 +21,11 @@ module.exports = {
     },
     notifications:
     {
-        url: "http://ec2-52-24-21-6.us-west-2.compute.amazonaws.com:8080"
-        //url: "http://ip-172-31-33-223.us-west-2.compute.internal:8080"
-        //url: "http://81.218.164.217:8080"
+        //host: "81.218.164.217",
+        host: "ec2-52-24-21-6.us-west-2.compute.amazonaws.com",
+        //host: "ip-172-31-33-223.us-west-2.compute.internal"
+        //host: "87.68.81.220",
+        port: 444
     }
 }
 
