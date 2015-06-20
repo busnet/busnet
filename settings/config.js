@@ -5,7 +5,7 @@ module.exports = {
 	    port: 3002
     },
     serve:{
-        //host: "10.0.0.6",
+        //host: "localhost",
         host: "busnet-v104-env-rpphgjmzkz.elasticbeanstalk.com",
         port: 3002
     },
