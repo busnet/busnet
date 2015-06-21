@@ -54,7 +54,7 @@ var ws = {
     },
     sendNotification: function(ride){
         var msg = {};
-        switch(ride.type){
+        switch(_.parseInt(ride.type)){
             case 1:
                 msg = {
                     title: 'הוזרמה נסיעה חדשה בBusNet',
@@ -78,7 +78,9 @@ var ws = {
                 _.forEach(devices, function(device){
                     msg.deviceToken = device.deviceToken;
                     msg.provider = 'google';
-                    client.write(JSON.stringify(msg) + '\r\n');
+                    client.write(JSON.stringify(msg) + '\r\n', function(){
+                        console.log('Notification %s to %s sent: ', msg.title, msg.body);
+                    });
                 });
             });
             client.on('data', function(err) {
