@@ -63,8 +63,7 @@ app.get('/ping.html', function(request, response){
 app.post('/rest/login', function(req, res){
     var user = req.body;
     ws.login(user, function(err, data){
-        console.log('login-data: ', data);
-        if(data){
+        if(!err && data){
             res.json({
                 err: err,
                 data: data
@@ -140,14 +139,16 @@ app.post('/rest/ride', function(req, res){
             var ride = {
                 username: data._id,
                 h: hash,
-                type: body.ride_type.id,
+                type: body.ride_type.id.toString(),
                 area: body.vacant_area,
+                cityID: body.cityID,
                 aviliableDate: moment(body.vacant_date).format('DD/MM/YYYY'),
                 aviliableHour: moment(body.vacant_date).format('HH:mm'),
                 vehicleType: body.vehicle.id,
                 vehicleNumber: body.vehicle_count,
                 returnDate: moment(body.return_date).format('DD/MM/YYYY'),
                 destination: body.return_area,
+                dstCityID: body.dstCityID,
                 extraDetails: body.remarks
             }
             ws.addRide(ride, function(err, data){
