@@ -6,7 +6,7 @@ module.exports = {
     },
     serve:{
         //host: "localhost",
-        host: "app.busnet.com",
+        host: "app.busnet.co.il",
         port: 80
     },
     db:{
