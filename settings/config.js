@@ -6,11 +6,11 @@ module.exports = {
     },
     serve:{
         //host: "localhost",
-        host: "busnet-v104-env-rpphgjmzkz.elasticbeanstalk.com",
-        port: 3002
+        host: "app.busnet.com",
+        port: 80
     },
     db:{
-        name:"BusNet-test",
+        name:"BusNet",
         server:"ip-172-31-25-81.us-west-2.compute.internal"
         //server: "localhost"
     },
