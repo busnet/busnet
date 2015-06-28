@@ -77,6 +77,7 @@ var ws = {
               console.log('connected to notification server!');
                 _.forEach(devices, function(device){
                     msg.deviceToken = device.deviceToken;
+                    msg.source = 'trucknet';
                     msg.provider = 'google';
                     client.write(JSON.stringify(msg) + '\r\n', function(){
                         console.log('Notification %s to %s sent: ', msg.title, msg.body);
