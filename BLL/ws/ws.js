@@ -5,9 +5,14 @@ var crypto = require('crypto');
 var mailer = require("../Mailer.js");
 var rss = require("../Rss.js");
 var request = require("request");
-var needle = require("needle");
+//var needle = require("needle");
+//var request = require("request");
+var net = require('net');
 var config = require("../../settings/config");
 var _ = require('lodash');
+//var http = require('http');
+//var querystring = require('querystring');
+var iconv = require('iconv-lite');
 
 /*
  wsReq ={ 
@@ -48,31 +53,42 @@ var ws = {
         });
     },
     sendNotification: function(ride){
-        var msg = null;
-        switch(ride.type){
-            case "1":
+        var msg = {};
+        switch(_.parseInt(ride.type)){
+            case 1:
                 msg = {
                     title: 'הוזרמה נסיעה חדשה בBusNet',
                     body: 'הוזרמה נסיעה חדשה בBusNet מ' + ride.area + ' אל ' + ride.destination + ' בתאריך ' + ride.aviliableDate + '. פרטים נוספים במערכת. תודה.'
                 }
                 break;
-            case "2":
+            case 2:
                 msg = {
                     title: 'הוזרמה בקשה בBusNet',
                     body: 'הוזרמה בקשה בBusNet ל' + ride.vehicleType +' מ'+ ride.area + ' ל' + ride.destination + ' בתאריך ' + ride.aviliableDate + '. פרטים נוספים במערכת. תודה.'
                 }
                 break;
         }
+
         dal.getDeviceTokens(ride.companyID, function(err, devices){
-            _.forEach(devices, function(device){
-                msg.deviceToken = device.token;
-                needle.post(config.notification.url, msg, {json:true}, function(err, res, body){
-                    if (!err && res.statusCode == 200){
-                        console.log('sent wasup to: ' + numbers + ', msg:' + txt);
-                    }else{
-                        console.log(err);
-                    }
+            var client = net.connect({
+                host: config.notifications.host, 
+                port: config.notifications.port
+            },function() { //'connect' listener
+              console.log('connected to notification server!');
+                _.forEach(devices, function(device){
+                    msg.deviceToken = device.deviceToken;
+                    msg.provider = 'google';
+                    client.write(JSON.stringify(msg) + '\r\n', function(){
+                        console.log('Notification %s to %s sent: ', msg.title, msg.body);
+                    });
                 });
+            });
+            client.on('data', function(err) {
+              console.log('server data:', data);
+              client.end();
+            });
+            client.on('error', function(err) {
+              console.log('server connection error:', err);
             });
         });
     },
@@ -225,17 +241,39 @@ var ws = {
                 cb(null, data);
             });
         };
-        dal.findOne('BusCompany', { username: loginInfo.username, password: loginInfo.password }, { _id: 1, username: 1, hash: 1, firstName: 1, lastName: 1, "dtl.companyName":1,favi:1 }, function (err, d) {
-            if (d) {
-                if(loginInfo.google){
-                    setToken(d, cb);
-                }else{
-                    cb(null, d);
-                }
+        aMember.login(loginInfo.username, loginInfo.password, function (err, data) {
+            var jData = null
+            if (data)
+                jData = JSON.parse(data);
+            if (jData && jData.ok) {
+                dal.findOne('BusCompany', { _id:jData.user_id }, { _id: 1, username: 1, hash: 1, firstName: 1, lastName: 1, "dtl.companyName":1,favi:1 }, function (err, d) {
+                    if (d) {
+                        users[loginInfo.username] = d.hash;
+                        if(loginInfo.google){
+                            setToken(d, cb);
+                        }
+                        cb(null, d);
+                    }else{
+                        var busCompany = loginInfo;
+                        busCompany._id = jData.user_id;
+                        busCompany.hash = crypto.createHash('md5').update(loginInfo.password).digest("hex");
+                        busCompany.email = jData.email;
+                        busCompany.firstName = jData.name_f;
+                        busCompany.lastName = jData.name_l;
+                        users[loginInfo.username] = busCompany.hash;
+                        dal.SaveDoc('BusCompany', busCompany, setToken(busCompany, function(err, data){
+                            if(loginInfo.google){
+                                setToken(data, cb);
+                            }else{
+                                cb(null, cb);
+                            }
+                        })); 
+                    }
+                });
             }else{
-                cb('User not found', null);
+                cb(null, null);
             }
-        });
+        });  
     },
     loginWithThirdParty: function (loginInfo, cb) {
         aMember.login(loginInfo.username, loginInfo.password, function (err, data) {

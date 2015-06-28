@@ -18,6 +18,7 @@
     "emailjs-plus": "~0.3.4",
     "express": "~3.4.7",
     "extend": "^2.0.1",
+    "iconv-lite": "^0.4.10",
     "lodash": "^3.8.0",
     "moment": "^2.9.0",
     "mongolian": "~0.1.18",
