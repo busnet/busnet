@@ -57,14 +57,14 @@ var ws = {
         switch(_.parseInt(ride.type)){
             case 1:
                 msg = {
-                    title: 'הוזרמה נסיעה חדשה בBusNet',
-                    body: 'הוזרמה נסיעה חדשה בBusNet מ' + ride.area + ' אל ' + ride.destination + ' בתאריך ' + ride.aviliableDate + '. פרטים נוספים במערכת. תודה.'
+                    title: 'הוזרמה נסיעה חדשה בטראקנט',
+                    body: 'הוזרמה נסיעה חדשה בטראקנט מ' + ride.area + ' אל ' + ride.destination + ' בתאריך ' + ride.aviliableDate + '. פרטים נוספים במערכת. תודה.'
                 }
                 break;
             case 2:
                 msg = {
-                    title: 'הוזרמה בקשה בBusNet',
-                    body: 'הוזרמה בקשה בBusNet ל' + ride.vehicleType +' מ'+ ride.area + ' ל' + ride.destination + ' בתאריך ' + ride.aviliableDate + '. פרטים נוספים במערכת. תודה.'
+                    title: 'הוזרמה בקשה בטראקנט',
+                    body: 'הוזרמה בקשה בטראקנט ל' + ride.vehicleType +' מ'+ ride.area + ' ל' + ride.destination + ' בתאריך ' + ride.aviliableDate + '. פרטים נוספים במערכת. תודה.'
                 }
                 break;
         }

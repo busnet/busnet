@@ -4,7 +4,7 @@ var app = express();
 var http = require('http');
 var cors = require('cors');
 var server = http.createServer(app);
-var io = require('socket.io')(server);
+
 var config = require("./settings/config.js");
 var qsp = require("querystring");
 var extend = require("extend");
@@ -53,7 +53,7 @@ app.use(function (err, req, res, next) {
 dal.getUrlPull(function(pages){urlPull = pages;});
 
 server.listen(config.listen.port);
-
+var io = require('socket.io')(server);
 //io.set('transports', ['xhr-polling']);
 
 app.get('/ping.html', function(request, response){
