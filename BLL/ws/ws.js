@@ -57,14 +57,14 @@ var ws = {
         switch(_.parseInt(ride.type)){
             case 1:
                 msg = {
-                    title: 'הוזרמה נסיעה חדשה בBusNet',
-                    body: 'הוזרמה נסיעה חדשה בBusNet מ' + ride.area + ' אל ' + ride.destination + ' בתאריך ' + ride.aviliableDate + '. פרטים נוספים במערכת. תודה.'
+                    title: 'הוזרמה נסיעה חדשה בבאסנט',
+                    body: 'הוזרמה נסיעה חדשה בבאסנט מ' + ride.area + ' אל ' + ride.destination + ' בתאריך ' + ride.aviliableDate + '. פרטים נוספים במערכת. תודה.'
                 }
                 break;
             case 2:
                 msg = {
-                    title: 'הוזרמה בקשה בBusNet',
-                    body: 'הוזרמה בקשה בBusNet ל' + ride.vehicleType +' מ'+ ride.area + ' ל' + ride.destination + ' בתאריך ' + ride.aviliableDate + '. פרטים נוספים במערכת. תודה.'
+                    title: 'הוזרמה בקשה בבאסנט',
+                    body: 'הוזרמה בקשה בבאסנט ל' + ride.vehicleType +' מ'+ ride.area + ' ל' + ride.destination + ' בתאריך ' + ride.aviliableDate + '. פרטים נוספים במערכת. תודה.'
                 }
                 break;
         }
@@ -77,13 +77,14 @@ var ws = {
               console.log('connected to notification server!');
                 _.forEach(devices, function(device){
                     msg.deviceToken = device.deviceToken;
+                    msg.source = "busnet";
                     msg.provider = 'google';
                     client.write(JSON.stringify(msg) + '\r\n', function(){
                         console.log('Notification %s to %s sent: ', msg.title, msg.body);
                     });
                 });
             });
-            client.on('data', function(err) {
+            client.on('data', function(data) {
               console.log('server data:', data);
               client.end();
             });
