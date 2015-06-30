@@ -77,8 +77,8 @@ app.post('/rest/login', function(req, res){
 
 app.get('/rest/user', function(req, res){
     if(req.headers['x-token']){
-        var hash = req.headers['x-token'];
-        dal.findOne('BusCompany', {hash: hash}, {}, function(err, data){
+        var id = req.headers['x-token'];
+        dal.findOne('BusCompany', {_id: _.parseInt(id)}, {}, function(err, data){
             res.json({
                 err: err,
                 data: data

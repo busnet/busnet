@@ -8,6 +8,8 @@ module.exports = {
         //host: "localhost",
         host: "app.busnet.co.il",
         port: 80
+        //port: 3002
+
     },
     db:{
         name:"BusNet",
