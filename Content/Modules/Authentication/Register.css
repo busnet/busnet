@@ -77,7 +77,101 @@
     cursor: pointer;
 }
 
-    .RegisterBtn img {
+.RegisterBtn img {
         width: 100%;
         height: 100%;
-    }
+}
+
+  /* mobile device */
+@media only screen and (min-device-width: 320px) and (max-device-width: 800px) {
+	.BusBG {
+	  background-image: none;
+	}
+
+	.RegistrationPane {
+	  background-color: #E8E8E8;
+	  opacity: 0.9;
+	  margin: auto;
+	  width: 100%;
+	  padding: 0%;
+	}
+
+	h1.RegisterationTitle {
+	  margin: 5% 0 0;
+	  color: #0072BB;
+	  text-shadow: none !important;
+	  display: inline-block;
+	  font-size: 280%;
+	  width: 100%;
+	  text-align: center;
+	}
+	
+	.CompanyDetailsPane , .AccountDetailsPane {
+	padding: 3% 0 0 !important;
+	width: 100% !important;
+	}
+	
+	.FormField label {
+     width: 25%;
+	}
+	.FormField input {
+	  border: 0;
+	  width: 60%;
+	}
+	.FormField {
+	  margin: 0 0 1% 0;
+	  width: 100%;
+	  padding: 0% 6%;
+	}
+	.register-btn {
+	  width:80%;
+	  display:block;
+	  height:30px;
+	  margin: 7% auto;
+	  color: #fff !important;
+	  background-color: rgb(24, 126, 192);
+	  text-align: center;
+	  font-size: 211%;
+	  padding: 1% 0;
+	  line-height: 1.8;
+	  border-radius: 9px;
+	}
+	.RegisterBtn {
+		width: 80%;
+		  margin: 6% auto;
+		  display: block;
+		  text-align: center;
+	}
+	.trems {
+	  font-size: 180%;
+	  text-align: center;
+	}
+	  .ui-checkbox input, .ui-radio input {
+		  right: 4%;
+		  height: 38px !important;
+		  left: inherit;
+	}
+	.BlackTitle {
+	  padding: 0 5%;
+	}
+	.trems-pdf {
+		margin: 3% auto;
+	  display: block;
+	  width: 40%;
+	  text-align: center;
+	  font-size: 176%;
+	}
+	.ui-select {
+	  margin-top: 0;
+	  margin-bottom: 0;
+	  position: relative;
+	  width: 88%;
+	 }	
+	 .ui-select .ui-btn {
+		padding: 1% 1em;
+	 }
+	 .ui-select .ui-btn>span:not(.ui-li-count) {
+	  position: relative;
+	  top: 5px;
+	}
+}

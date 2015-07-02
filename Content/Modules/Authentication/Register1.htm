@@ -1,4 +1,5 @@
-﻿<div ng-form="Register" class="RegistrationPane">        
+﻿<div ng-form="Register" class="RegistrationPane">       
+<h1 class="RegisterationTitle">הרשמה למערכת TruckNet</h1> 
     <div class="ui-grid-a">        
         <div class="ui-block-a CompanyDetailsPane" ng-form="CompanyDtl">
             <div class="BlackTitle">פרטי חברה</div>
@@ -47,16 +48,13 @@
                 <input type="text" ng-key="activityArea" ng-validate="required" ng-parse="int" class="ActivityArea InputTxt" data-role="none" />
                 <div class="Clear"></div>
             </div>-->
-            <div class="RegisterBtn">
-                <img alt="הרשמה" src="https://s3-us-west-2.amazonaws.com/busnet/website/RegisterBtn.jpg" onclick="register1Continue()" style="cursor:pointer" />
-            </div>
+            
             <!--<div class="FormField" style="color:black">
                 <input type="checkbox" ng-key="minibusesNumber" ng-validate="required" ng-parse="int" class="MinibusesNumber InputTxt" data-role="none" />
                 מעוניין להיות חבר מועדון BUSNET
             </div>-->
         </div>
         <div class="ui-block-b AccountDetailsPane" ng-form="Company">
-            <h1 class="RegisterationTitle">הרשמה למערכת BusNet</h1>
             <div class="BlackTitle">פרטי חשבון</div>
             <!--<div class="FormField">
                 <label class="FormLabel">שם פרטי</label>
@@ -88,8 +86,28 @@
                 <input type="text" ng-key="confirmpassword" ng-validate="required" class="ConfirmPassword InputTxt" data-role="none" />
                 <div class="Clear"></div>
             </div>
-            <div class="BlackTitle">פרטי תשלום</div>
+            <div class="FormField">
+                <label class="FormLabel">מס כלי רכב</label>
+					 <select name="select-choice-a" id="select-choice-a" data-native-menu="false">
+						  <option value="1">עד 1</option>
+						  <option value="2">עד 4 </option>
+						  <option value="3">עד 8</option>
+						  <option value="4">מעל 8</option>
+					</select> 
+                <div class="Clear"></div>
+            </div>
+			<a class="trems-pdf" href="http://www.trucknet.co.il/trucknet-terms.pdf">לצפייה בהסכם</a>
+			<div class="RegisterBtn">
+				<form class="trems">
+					<input type="checkbox" class="terms-checkbox" name="" value="">קראתי את התנאים ואני מסכים להם<br>
+				</form>
+                <a style="display: none" class="register-btn" alt="הרשמה" onclick="register1Continue()">סיום הרשמה</a>
+            </div>
         </div>
         <div class="Clear"></div>
+		
     </div>
 </div>
+<script type="text/javascript">
+	setTimeout(function() { hideRegisterBtn (); }, 500);
+</script>

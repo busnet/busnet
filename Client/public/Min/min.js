@@ -11204,6 +11204,15 @@ function  UpdateUserDtl(){
     });
 }
 
+function hideRegisterBtn () {
+		$(".terms-checkbox").change(function() {
+			if(this.checked) {
+				$(".register-btn").show();  
+			} else {
+				$(".register-btn").hide();
+			}
+		});
+}
 var company;
 function updateBusCompanyDtl() {
     if (!ng.validate("Company"))
