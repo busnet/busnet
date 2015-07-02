@@ -134,7 +134,7 @@ app.get('/rest/ride/:rideid', function(req, res){
 app.post('/rest/ride', function(req, res){
     if(req.headers['x-token']){
         var hash = req.headers['x-token'];
-        dal.findOne('BusCompany', {hash: hash}, {}, function(err, data){
+        dal.findOne('BusCompany', {_id: _.parseInt(hash)}, {}, function(err, data){
             var body = req.body;
             var ride = {
                 username: data._id,
