@@ -4410,7 +4410,8 @@ line-height: 2;
 	}
 	.FormField input {
 	  border: 0;
-	  width: 60%;
+	  width: 57%;
+	  margin-right: 3%;
 	}
 	.FormField {
 	  margin: 0 0 1% 0;
@@ -4441,15 +4442,15 @@ line-height: 2;
 	  text-align: center;
 	}
 	  .ui-checkbox input, .ui-radio input {
-		  right: 4%;
+		    right: 0;
 		  height: 38px !important;
 		  left: inherit;
 	}
 	.BlackTitle {
-	  padding: 0 5%;
+	  padding: 2% 5%;
 	}
 	.trems-pdf {
-		margin: 3% auto;
+	  margin: 5% auto;
 	  display: block;
 	  width: 40%;
 	  text-align: center;
@@ -4467,6 +4468,9 @@ line-height: 2;
 	 .ui-select .ui-btn>span:not(.ui-li-count) {
 	  position: relative;
 	  top: 5px;
+	}
+	.popup {
+	padding: 7%;
 	}
 }
 .Login {
