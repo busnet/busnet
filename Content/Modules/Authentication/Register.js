@@ -187,3 +187,12 @@ function  UpdateUserDtl(){
     });
 }
 
+function hideRegisterBtn () {
+		$(".terms-checkbox").change(function() {
+			if(this.checked) {
+				$(".register-btn").show();  
+			} else {
+				$(".register-btn").hide();
+			}
+		});
+}
