@@ -10,7 +10,7 @@
             </div>
             <div class="FormField">
                 <label class="FormLabel">ח.פ/עוסק מורשה</label>
-                <input type="text" ng-key="companyNumber" class="AuthorizedDealer InputTxt" data-role="none" />
+                <input type="number" ng-validate="required"  ng-key="companyNumber" class="AuthorizedDealer InputTxt" data-role="none" />
                 <div class="Clear"></div>
             </div>
             <div class="FormField">
@@ -25,7 +25,7 @@
             </div>
             <div class="FormField">
                 <label class="FormLabel">כתובת</label>
-                <input type="text" ng-key="address" class="Address InputTxt" data-role="none" />
+                <input type="text" ng-key="address" ng-validate="required" class="Address InputTxt" data-role="none" />
                 <div class="Clear"></div>
             </div>  
             <div class="FormField">
@@ -78,17 +78,17 @@
             </div>
             <div class="FormField">
                 <label class="FormLabel">סיסמה</label>
-                <input type="text" ng-key="password" ng-validate="required" class="Password InputTxt" data-role="none" />
+                <input type="password" ng-key="password" ng-validate="required" class="Password InputTxt" data-role="none" />
                 <div class="Clear"></div>
             </div>
             <div class="FormField">
                 <label class="FormLabel">אישור סיסמה</label>
-                <input type="text" ng-key="confirmpassword" ng-validate="required" class="ConfirmPassword InputTxt" data-role="none" />
+                <input type="password" ng-key="confirmpassword" ng-validate="required" class="ConfirmPassword InputTxt" data-role="none" />
                 <div class="Clear"></div>
             </div>
             <div class="FormField">
                 <label class="FormLabel">מס כלי רכב</label>
-					 <select name="select-choice-a" id="select-choice-a" data-native-menu="false">
+					 <select ng-key="package"  ng-validate="required" data-native-menu="false">
 						  <option value="1">עד 1</option>
 						  <option value="2">עד 4 </option>
 						  <option value="3">עד 8</option>
@@ -96,7 +96,7 @@
 					</select> 
                 <div class="Clear"></div>
             </div>
-			<a class="trems-pdf" href="http://www.trucknet.co.il/trucknet-terms.pdf">לצפייה בהסכם</a>
+			<a class="trems-pdf" target="_blank" href="http://www.trucknet.co.il/trucknet-terms.pdf">לצפייה בהסכם</a>
 			<div class="RegisterBtn">
 				<form class="trems">
 					<input type="checkbox" class="terms-checkbox" name="" value="">קראתי את התנאים ואני מסכים להם<br>
@@ -111,3 +111,11 @@
 <script type="text/javascript">
 	setTimeout(function() { hideRegisterBtn (); }, 500);
 </script>
+
+<div class="popup" data-role="popup" data-position-to="window" id="regOk">
+<div>
+<h1>ההרשמה הסתיימה בהצלחה</h1>
+<img src="http://trucknet.co.il/images/vt_logo_style1.png"></img>
+<a data-rel="back" class="register-btn" href="#" onclick="regFinish()">סיום</a>
+</div>
+</div>

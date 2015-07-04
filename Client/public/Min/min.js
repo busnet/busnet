@@ -11054,9 +11054,12 @@ function InitRegister1() {
 }
 
 function register1Continue() {
-    if (!ng.validate("Register"))
+	var uid = $(".AuthorizedDealer").val().length;
+    if (!ng.validate("Register")    ) {
         return;
-    var company = ng.getFormData("Company");
+	}
+	if ( uid > 8 && $(".Email").val().match(/(@)/).length > 0 ) {
+	var company = ng.getFormData("Company");
     company.dtl = ng.getFormData("CompanyDtl");
     company.dtl.email = company.email
     company.dtl.contactName = company.firstName + ' ' + company.lastName
@@ -11066,18 +11069,25 @@ function register1Continue() {
 
     ng.ws('addUser',company, function (d) {
         if (d) {
+			//add package to user
+			//d_id - user new id
+			
+			
             var date = new Date();
             date.setTime(date.getTime() + (48 * 60 * 60 * 1000)); // 48H
 
             $.cookie('username', d.username, { path: '/' ,expires: date  });
             $.cookie('h', d.hash, { path: '/', expires: date });
             $.cookie('name', d.dtl.companyName, { path: '/', expires: date });
-            window.location = '/';
+            $("#regOk").popup("open");
         }
         else
-            alert('error');
+            alert('אנא מלאו ח.פ/עוסק מורשה חוקי');
     });
-
+	} else {
+	alert('אנא מלאו אחר ההוראות');
+	}
+	
 }
 
 
@@ -11204,7 +11214,10 @@ function  UpdateUserDtl(){
     });
 }
 
+
+
 function hideRegisterBtn () {
+		$(".trems").addClass("ui-disabled");
 		$(".terms-checkbox").change(function() {
 			if(this.checked) {
 				$(".register-btn").show();  
@@ -11212,8 +11225,15 @@ function hideRegisterBtn () {
 				$(".register-btn").hide();
 			}
 		});
+		
+		$(".trems-pdf").click(function() {
+		$(".trems").removeClass("ui-disabled");	
+		});
 }
-var company;
+
+function regFinish() {
+	window.close();
+}var company;
 function updateBusCompanyDtl() {
     if (!ng.validate("Company"))
         return;
