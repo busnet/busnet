@@ -32,7 +32,7 @@ var ws = {
         dal.findOne('BusCompany', { _id: parseInt(busCompany.username), hash: busCompany.h }, {  }, cb);
     },
     addRide: function (ride, cb) {
-        dal.findOne('BusCompany', { _id: parseInt(ride.username), _id: _.parseInt(ride.h) }, { _id: 1, "dtl.companyName": 1 }, function (err, d) {
+        dal.findOne('BusCompany', { _id: parseInt(ride.username) }, { _id: 1, "dtl.companyName": 1 }, function (err, d) {
             delete ride.h;
             ride.companyID = d._id;
             ride.company = d.dtl.companyName;
