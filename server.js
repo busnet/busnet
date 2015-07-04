@@ -166,6 +166,18 @@ app.post('/rest/ride', function(req, res){
     }
 });
 
+app.get('/rest/notifications', function(req, res){
+    if(req.headers['x-token']){
+        var hash = req.headers['x-token'];
+        ws.getNotifications(hash, function(err, data){
+            res.json({
+                err: null,
+                data: data
+            });
+        });
+    }
+});
+
 app.get('/EctMail.html', function(request, response){
       var uri = url.parse(request.url,true);    
     var tmplate = uri.query['t'];

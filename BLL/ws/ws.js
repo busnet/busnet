@@ -452,6 +452,7 @@ module.exports.isLogedIn = function (request){
 };
 
 module.exports.login = ws.login;
-module.exports.addRide = ws.addRide;    
+module.exports.addRide = ws.addRide;
+module.exports.getNotifications = ws.getNotifications; 
 
 

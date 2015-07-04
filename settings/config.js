@@ -5,7 +5,7 @@ module.exports = {
 	    port: 3002
     },
     serve:{
-        host: "localhost",
+        host: "192.168.1.11",
         //host: "app.busnet.co.il",
         //port: 80
         port: 3002
