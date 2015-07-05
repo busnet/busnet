@@ -52,27 +52,25 @@ function register1Continue() {
 
     ng.ws('addUser',company, function (d) {
         if (d) {
-			//add package to user
-			//d_id - user new id
-			
-			
+		
             var date = new Date();
             date.setTime(date.getTime() + (48 * 60 * 60 * 1000)); // 48H
 
             $.cookie('username', d.username, { path: '/' ,expires: date  });
             $.cookie('h', d.hash, { path: '/', expires: date });
             $.cookie('name', d.dtl.companyName, { path: '/', expires: date });
+			
             $("#regOk").popup("open");
-        }
-        else
-            alert('אנא מלאו ח.פ/עוסק מורשה חוקי');
+			
+			} else {
+				alert('אנא מלאו אחר ההוראות');
+			}
     });
-	} else {
-	alert('אנא מלאו אחר ההוראות');
-	}
 	
+			} else {
+				alert('אנא מלאו ח.פ/עוסק מורשה חוקי');
+			}
 }
-
 
 
 
@@ -197,10 +195,8 @@ function  UpdateUserDtl(){
     });
 }
 
-
-
-function hideRegisterBtn () {
-		$(".trems").addClass("ui-disabled");
+$( document ).ready(function() {
+  		$(".trems").addClass("ui-disabled");
 		$(".terms-checkbox").change(function() {
 			if(this.checked) {
 				$(".register-btn").show();  
@@ -212,7 +208,7 @@ function hideRegisterBtn () {
 		$(".trems-pdf").click(function() {
 		$(".trems").removeClass("ui-disabled");	
 		});
-}
+});
 
 function regFinish() {
 	window.close();
