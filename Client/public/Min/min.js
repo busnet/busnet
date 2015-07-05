@@ -11214,10 +11214,8 @@ function  UpdateUserDtl(){
     });
 }
 
-
-
-function hideRegisterBtn () {
-		$(".trems").addClass("ui-disabled");
+$( document ).ready(function() {
+  		$(".trems").addClass("ui-disabled");
 		$(".terms-checkbox").change(function() {
 			if(this.checked) {
 				$(".register-btn").show();  
@@ -11229,7 +11227,8 @@ function hideRegisterBtn () {
 		$(".trems-pdf").click(function() {
 		$(".trems").removeClass("ui-disabled");	
 		});
-}
+});
+
 
 function regFinish() {
 	window.close();
