@@ -84,16 +84,22 @@ var ws = {
                     var msgClone = JSON.parse(JSON.stringify(msg));
                     setTimeout(function(){
                         client.write(JSON.stringify(msgClone) + '\r\n', function(){
-                            console.log('Notification %s to %s sent: ', msgClone.title, msgClone.body);
+                            var log = 'Notification '+ msgClone.title +' to '+ msgClone.deviceToken;
+                            var record = {
+                                type: "push-request",
+                                at: moment().format(),
+                                data: log,
+                                ride: ride._id
+                            };
+                            dal.logData(record);
                         });
-                    }, timeout + 100);
+                    }, timeout + 500);
                 });
             });
             client.on('data', function(data) {
-                //dal.logData(data);
                 var res = data.toString('utf8');
                 var record = {
-                    type: "push",
+                    type: "push-response",
                     at: moment().format(),
                     data: res,
                     ride: ride._id

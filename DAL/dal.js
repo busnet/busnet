@@ -24,7 +24,7 @@ function getNewID(collection,cb) {
 
 var dal ={
         logData: function(data, cb){
-            console.log('data from source: ', data);
+            console.log(data);
             db.collection('logs').save(data, cb);
         },
         updateCityArea: function(cb){
