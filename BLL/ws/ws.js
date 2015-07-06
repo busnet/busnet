@@ -76,15 +76,17 @@ var ws = {
                 port: config.notifications.port
             },function() { //'connect' listener
               console.log('connected to notification server!');
+                var timeout = 100;
                 _.forEach(devices, function(device){
                     msg.deviceToken = device.deviceToken;
                     msg.source = "busnet";
                     msg.provider = 'google';
-                    client.write(JSON.stringify(msg) + '\r\n', function(){
-                        console.log('Notification %s to %s sent: ', msg.title, msg.body);
-                    });
+                    setTimeout(function(){
+                        client.write(JSON.stringify(msg) + '\r\n', function(){
+                            console.log('Notification %s to %s sent: ', msg.title, msg.body);
+                        });
+                    }, timeout + 100);
                 });
-                client.end();
             });
             client.on('data', function(data) {
                 //dal.logData(data);
