@@ -13,6 +13,7 @@ var _ = require('lodash');
 //var http = require('http');
 //var querystring = require('querystring');
 var iconv = require('iconv-lite');
+var moment = require('moment');
 
 /*
  wsReq ={ 
@@ -86,7 +87,15 @@ var ws = {
                 client.end();
             });
             client.on('data', function(data) {
-              console.log('server data:', data);
+                //dal.logData(data);
+                var res = data.toString('utf8');
+                var record = {
+                    type: "push",
+                    at: moment().format(),
+                    data: res,
+                    ride: ride._id
+                };
+                dal.logData(record);
             });
             client.on('error', function(err) {
               console.log('server connection error:', err);

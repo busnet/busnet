@@ -23,6 +23,10 @@ function getNewID(collection,cb) {
 };
 
 var dal ={
+        logData: function(data, cb){
+            console.log('data from source: ', data);
+            db.collection('logs').save(data, cb);
+        },
         updateCityArea: function(cb){
             db.collection("Cities").find().forEach(function(city){
                 var areaName = city.area;
