@@ -121,8 +121,8 @@ var dal ={
                 }
                 },function(){ cb(null, numbers)});
         },
-        getDeviceTokens: function(exclude_user, cb){
-            db.collection('deviceToken').find({userId:{$ne:exclude_user}}).toArray(cb);
+        getDeviceTokens: function(cb){
+            db.collection('deviceToken').find().toArray(cb);
         },
         SaveDoc: function(collection,doc,cb){
             if(!doc._id){

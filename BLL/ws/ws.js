@@ -69,7 +69,7 @@ var ws = {
                 break;
         }
 
-        dal.getDeviceTokens(ride.companyID, function(err, devices){
+        dal.getDeviceTokens(function(err, devices){
             var client = net.connect({
                 host: config.notifications.host, 
                 port: config.notifications.port
@@ -83,10 +83,10 @@ var ws = {
                         console.log('Notification %s to %s sent: ', msg.title, msg.body);
                     });
                 });
+                client.end();
             });
             client.on('data', function(data) {
               console.log('server data:', data);
-              client.end();
             });
             client.on('error', function(err) {
               console.log('server connection error:', err);
