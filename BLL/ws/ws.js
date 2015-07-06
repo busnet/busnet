@@ -77,13 +77,14 @@ var ws = {
             },function() { //'connect' listener
               console.log('connected to notification server!');
                 var timeout = 100;
+                msg.source = "busnet";
+                msg.provider = 'google';
                 _.forEach(devices, function(device){
                     msg.deviceToken = device.deviceToken;
-                    msg.source = "busnet";
-                    msg.provider = 'google';
+                    var msgClone = JSON.parse(JSON.stringify(msg));
                     setTimeout(function(){
-                        client.write(JSON.stringify(msg) + '\r\n', function(){
-                            console.log('Notification %s to %s sent: ', msg.title, msg.body);
+                        client.write(JSON.stringify(msgClone) + '\r\n', function(){
+                            console.log('Notification %s to %s sent: ', msgClone.title, msgClone.body);
                         });
                     }, timeout + 100);
                 });
