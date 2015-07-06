@@ -24,9 +24,9 @@ module.exports = {
     },
     notifications:
     {
-        host: "81.218.164.217",
+        //host: "81.218.164.217",
         //host: "ec2-52-24-21-6.us-west-2.compute.amazonaws.com",
-        //host: "ip-172-31-33-223.us-west-2.compute.internal",
+        host: "ip-172-31-33-223.us-west-2.compute.internal",
         port: 444
     }
 }
