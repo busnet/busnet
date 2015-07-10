@@ -251,14 +251,26 @@ var ws = {
           secretAccessKey: SNS_KEY_ID,
           platformApplicationArn: ANDROID_ARN
         });
-        androidSNSApp.on(SNS.EVENTS.USER_ADDED, function(endpointArn, deviceId) { 
+        androidSNSApp.on(SNS.EVENTS.ADDED_USER, function(endpointArn, deviceId) { 
             dal.updateDeviceTokenArn(deviceId, endpointArn,  function(err, newDevice){
-                console.log('\nSuccessfully added device with deviceId: ' + deviceId + '.\nEndpointArn for user is: ' + endpointArn);
+                var record = {
+                    type: "push-register-success",
+                    log: 'Successfully added device with deviceId: ' + deviceId + '. EndpointArn for user is: ' + endpointArn,
+                    at: moment().format(),
+                    device: device
+                };
+                dal.logData(record);
             });
         });
         androidSNSApp.addUser(device.deviceToken, null, function(err, endpointArn) {
             if(err) {
-              console.log(err);
+                var record = {
+                    type: "push-register-failure",
+                    log: 'failed to add device with device: ' + device.deviceToken,
+                    at: moment().format(),
+                    device: device
+                };
+                dal.logData(record);
             }
         });
     },
