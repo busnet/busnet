@@ -128,6 +128,12 @@ var dal ={
         getDeviceTokens: function(cb){
             db.collection('deviceToken').find().toArray(cb);
         },
+        updateDeviceTokenArn: function(deviceToken, endpointArn, cb){
+            db.collection('deviceToken').update(
+                {deviceToken: deviceToken},
+                {$set:{endpointArn: endpointArn}},
+                cb);
+        },
         SaveDoc: function(collection,doc,cb){
             if(!doc._id){
                 var cbl = cb;

@@ -178,6 +178,11 @@ app.get('/rest/notifications', function(req, res){
     }
 });
 
+app.get('/rest/utils/sns/register/all', function(req, res){
+    ws.SNSRegisterAll();
+    res.send('registered all devices');
+});
+
 app.get('/EctMail.html', function(request, response){
       var uri = url.parse(request.url,true);    
     var tmplate = uri.query['t'];

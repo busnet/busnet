@@ -14,6 +14,10 @@ var _ = require('lodash');
 //var querystring = require('querystring');
 var iconv = require('iconv-lite');
 var moment = require('moment');
+var SNS = require('sns-mobile');
+var SNS_KEY_ID = process.env['AWS_SECRET_KEY'],  
+  SNS_ACCESS_KEY = process.env['AWS_ACCESS_KEY'];
+var ANDROID_ARN = process.env['SNS_ANDROID_ARN'];
 
 /*
  wsReq ={ 
@@ -39,7 +43,6 @@ var ws = {
             ride.company = d.dtl.companyName;
             ride.isApproved = false;
             
-            console.log(ride.aviliableDate);
             var dateString = ride.aviliableDate.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
             var year = parseInt(dateString[3]);
             var month = parseInt(dateString[2]) - 1;
@@ -70,44 +73,34 @@ var ws = {
                 break;
         }
 
+        var androidSNSApp = new SNS({  
+          platform: SNS.SUPPORTED_PLATFORMS.ANDROID,
+          region: 'us-west-2',
+          apiVersion: '2010-03-31',
+          accessKeyId: SNS_ACCESS_KEY,
+          secretAccessKey: SNS_KEY_ID,
+          platformApplicationArn: ANDROID_ARN
+        });
+
         dal.getDeviceTokens(function(err, devices){
-            var client = net.connect({
-                host: config.notifications.host, 
-                port: config.notifications.port
-            },function() { //'connect' listener
-              console.log('connected to notification server!');
-                var timeout = 100;
-                msg.source = "busnet";
-                msg.provider = 'google';
-                _.forEach(devices, function(device){
-                    msg.deviceToken = device.deviceToken;
-                    var msgClone = JSON.parse(JSON.stringify(msg));
-                    setTimeout(function(){
-                        client.write(JSON.stringify(msgClone) + '\r\n', function(){
-                            var log = 'Notification '+ msgClone.title +' to '+ msgClone.deviceToken;
-                            var record = {
-                                type: "push-request",
-                                at: moment().format(),
-                                data: log,
-                                ride: ride._id
-                            };
-                            dal.logData(record);
-                        });
-                    }, timeout + 500);
-                });
-            });
-            client.on('data', function(data) {
-                var res = data.toString('utf8');
-                var record = {
-                    type: "push-response",
-                    at: moment().format(),
-                    data: res,
-                    ride: ride._id
-                };
-                dal.logData(record);
-            });
-            client.on('error', function(err) {
-              console.log('server connection error:', err);
+            _.forEach(devices, function(device){
+                if(device.endpointArn){
+                    androidSNSApp.sendMessage(device.endpointArn, msg.body, function(err, messageId) {  
+                        var record = {
+                            ride: ride._id,
+                            at: moment().format()
+                        };
+                        if(err) {
+                            record.type = "push-error";
+                            record.log = 'failed sending a message to device '+ device.endpointArn;
+                            record.err = err;
+                        } else {
+                            record.type = "push-success";
+                            record.log = 'Successfully sent a message to device '+ device.endpointArn +'. MessageID was '+ messageId; 
+                        }
+                        dal.logData(record);
+                    });
+                }
             });
         });
     },
@@ -242,6 +235,33 @@ var ws = {
                 cb(err, null);
         });
     },
+    SNSRegisterAll: function(){
+        dal.getDeviceTokens(function(err, devices){
+            _.forEach(devices, function(device){
+                ws.SNSRegister(device);
+            });
+        });
+    },
+    SNSRegister: function(device){
+        var androidSNSApp = new SNS({  
+          platform: SNS.SUPPORTED_PLATFORMS.ANDROID,
+          region: 'us-west-2',
+          apiVersion: '2010-03-31',
+          accessKeyId: SNS_ACCESS_KEY,
+          secretAccessKey: SNS_KEY_ID,
+          platformApplicationArn: ANDROID_ARN
+        });
+        androidSNSApp.on(SNS.EVENTS.USER_ADDED, function(endpointArn, deviceId) { 
+            dal.updateDeviceTokenArn(deviceId, endpointArn,  function(err, newDevice){
+                console.log('\nSuccessfully added device with deviceId: ' + deviceId + '.\nEndpointArn for user is: ' + endpointArn);
+            });
+        });
+        androidSNSApp.addUser(device.deviceToken, null, function(err, endpointArn) {
+            if(err) {
+              console.log(err);
+            }
+        });
+    },
     login: function (loginInfo, cb) {
         var setToken = function(data, cb){
             var userDevice = {
@@ -253,6 +273,7 @@ var ws = {
             dal.findOne('deviceToken', userDevice, function(err, device){
                 if(!device){
                     dal.Save('deviceToken', userDevice, function(err, newDevice){
+                        ws.SNSRegister(newDevice);
                         cb(err, data);
                         return;
                     });
@@ -260,6 +281,7 @@ var ws = {
                 cb(null, data);
             });
         };
+        
         aMember.login(loginInfo.username, loginInfo.password, function (err, data) {
             var jData = null
             if (data)
@@ -471,6 +493,7 @@ module.exports.isLogedIn = function (request){
 
 module.exports.login = ws.login;
 module.exports.addRide = ws.addRide;
-module.exports.getNotifications = ws.getNotifications; 
+module.exports.getNotifications = ws.getNotifications;
+module.exports.SNSRegisterAll = ws.SNSRegisterAll;
 
 
