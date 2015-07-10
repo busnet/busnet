@@ -16,7 +16,7 @@ var iconv = require('iconv-lite');
 var moment = require('moment');
 var SNS = require('sns-mobile');
 var SNS_KEY_ID = process.env['AWS_SECRET_KEY'],  
-  SNS_ACCESS_KEY = process.env['AWS_ACCESS_KEY'];
+  SNS_ACCESS_KEY = process.env['AWS_ACCESS_KEY_ID'];
 var ANDROID_ARN = process.env['SNS_ANDROID_ARN'];
 
 /*
