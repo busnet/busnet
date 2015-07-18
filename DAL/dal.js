@@ -53,6 +53,10 @@ var dal ={
             var dataFilter = {
                 isApproved: false
             };
+
+            var pageSize = 10;
+            var page = filter && filter.page ? filter.page : 1;
+
             if(filter && filter.aviliableDateObj){
                 var date = moment(filter.aviliableDateObj);
                 var dateFrom = moment(date).startOf('day').toDate();
@@ -80,15 +84,12 @@ var dal ={
                             cities.push(_.parseInt(item));
                         });
                     });
-                    console.log(cities);
                     //dataFilter.cityID = {$in: cities};
                     dataFilter.$or = [{cityID:{$in: cities}},{dstCityID:{$in: cities}}];
-                    db.collection("Rides").find(dataFilter).toArray(cb);
-                    console.log(dataFilter);
+                    db.collection("Rides").find(dataFilter).skip(pageSize*(page-1)).limit(pageSize).toArray(cb);
                 });
             }else{
-                console.log(dataFilter);
-                db.collection("Rides").find(dataFilter).toArray(cb);
+                db.collection("Rides").find(dataFilter).skip(pageSize*(page-1)).limit(pageSize).toArray(cb);
             }
         },
         getUrlPull: function(cb){
