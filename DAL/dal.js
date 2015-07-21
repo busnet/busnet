@@ -89,6 +89,7 @@ var dal ={
                     db.collection("Rides").find(dataFilter).skip(pageSize*(page-1)).limit(pageSize).toArray(cb);
                 });
             }else{
+                console.log(dataFilter);
                 db.collection("Rides").find(dataFilter).skip(pageSize*(page-1)).limit(pageSize).toArray(cb);
             }
         },
