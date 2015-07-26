@@ -196,18 +196,15 @@ function  UpdateUserDtl(){
 }
 
 $( document ).ready(function() {
-  		$(".trems").addClass("ui-disabled");
+		$(".register-btn").addClass("ui-disabled");
 		$(".terms-checkbox").change(function() {
 			if(this.checked) {
-				$(".register-btn").show();  
+				$(".register-btn").removeClass("ui-disabled");	  
 			} else {
-				$(".register-btn").hide();
+				$(".register-btn").addClass("ui-disabled");	
 			}
 		});
 		
-		$(".trems-pdf").click(function() {
-		$(".trems").removeClass("ui-disabled");	
-		});
 });
 
 function regFinish() {
