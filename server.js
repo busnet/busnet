@@ -77,8 +77,8 @@ app.post('/rest/login', function(req, res){
 
 app.get('/rest/user', function(req, res){
     if(req.headers['x-token']){
-        var hash = req.headers['x-token'];
-        dal.findOne('BusCompany', {hash: hash}, {}, function(err, data){
+        var id = req.headers['x-token'];
+        dal.findOne('BusCompany', {_id: _.parseInt(id)}, {}, function(err, data){
             res.json({
                 err: err,
                 data: data
@@ -134,7 +134,7 @@ app.get('/rest/ride/:rideid', function(req, res){
 app.post('/rest/ride', function(req, res){
     if(req.headers['x-token']){
         var hash = req.headers['x-token'];
-        dal.findOne('BusCompany', {hash: hash}, {}, function(err, data){
+        dal.findOne('BusCompany', {_id: _.parseInt(hash)}, {}, function(err, data){
             var body = req.body;
             var ride = {
                 username: data._id,
@@ -164,6 +164,23 @@ app.post('/rest/ride', function(req, res){
     }else{
        res.json({error: 'you are not authorized'}); 
     }
+});
+
+app.get('/rest/notifications', function(req, res){
+    if(req.headers['x-token']){
+        var hash = req.headers['x-token'];
+        ws.getNotifications(hash, function(err, data){
+            res.json({
+                err: null,
+                data: data
+            });
+        });
+    }
+});
+
+app.get('/rest/utils/sns/register/all', function(req, res){
+    ws.SNSRegisterAll();
+    res.send('registered all devices');
 });
 
 app.get('/EctMail.html', function(request, response){

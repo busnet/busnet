@@ -1,4 +1,4 @@
-﻿var dal = require("../../DAL/dal").instance;
+var dal = require("../../DAL/dal").instance;
 var order = require("../Orders/Order");
 var aMember = require("../aMember");
 var crypto = require('crypto');
@@ -13,6 +13,11 @@ var _ = require('lodash');
 //var http = require('http');
 //var querystring = require('querystring');
 var iconv = require('iconv-lite');
+var moment = require('moment');
+var SNS = require('sns-mobile');
+var SNS_KEY_ID = process.env['AWS_SECRET_KEY'],  
+  SNS_ACCESS_KEY = process.env['AWS_ACCESS_KEY_ID'];
+var ANDROID_ARN = process.env['SNS_ANDROID_ARN'];
 
 /*
  wsReq ={ 
@@ -32,13 +37,12 @@ var ws = {
         dal.findOne('BusCompany', { _id: parseInt(busCompany.username), hash: busCompany.h }, {  }, cb);
     },
     addRide: function (ride, cb) {
-        dal.findOne('BusCompany', { _id: parseInt(ride.username), hash: ride.h }, { _id: 1, "dtl.companyName": 1 }, function (err, d) {
+        dal.findOne('BusCompany', { _id: parseInt(ride.username) }, { _id: 1, "dtl.companyName": 1 }, function (err, d) {
             delete ride.h;
             ride.companyID = d._id;
             ride.company = d.dtl.companyName;
             ride.isApproved = false;
             
-            console.log(ride.aviliableDate);
             var dateString = ride.aviliableDate.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
             var year = parseInt(dateString[3]);
             var month = parseInt(dateString[2]) - 1;
@@ -69,27 +73,34 @@ var ws = {
                 break;
         }
 
-        dal.getDeviceTokens(ride.companyID, function(err, devices){
-            var client = net.connect({
-                host: config.notifications.host, 
-                port: config.notifications.port
-            },function() { //'connect' listener
-              console.log('connected to notification server!');
-                _.forEach(devices, function(device){
-                    msg.deviceToken = device.deviceToken;
-                    msg.source = 'trucknet';
-                    msg.provider = 'google';
-                    client.write(JSON.stringify(msg) + '\r\n', function(){
-                        console.log('Notification %s to %s sent: ', msg.title, msg.body);
+        var androidSNSApp = new SNS({  
+          platform: SNS.SUPPORTED_PLATFORMS.ANDROID,
+          region: 'us-west-2',
+          apiVersion: '2010-03-31',
+          accessKeyId: SNS_ACCESS_KEY,
+          secretAccessKey: SNS_KEY_ID,
+          platformApplicationArn: ANDROID_ARN
+        });
+
+        dal.getDeviceTokens(function(err, devices){
+            _.forEach(devices, function(device){
+                if(device.endpointArn){
+                    androidSNSApp.sendMessage(device.endpointArn, msg.body, function(err, messageId) {  
+                        var record = {
+                            ride: ride._id,
+                            at: moment().format()
+                        };
+                        if(err) {
+                            record.type = "push-error";
+                            record.log = 'failed sending a message to device '+ device.endpointArn;
+                            record.err = err;
+                        } else {
+                            record.type = "push-success";
+                            record.log = 'Successfully sent a message to device '+ device.endpointArn +'. MessageID was '+ messageId; 
+                        }
+                        dal.logData(record);
                     });
-                });
-            });
-            client.on('data', function(err) {
-              console.log('server data:', data);
-              client.end();
-            });
-            client.on('error', function(err) {
-              console.log('server connection error:', err);
+                }
             });
         });
     },
@@ -224,6 +235,45 @@ var ws = {
                 cb(err, null);
         });
     },
+    SNSRegisterAll: function(){
+        dal.getDeviceTokens(function(err, devices){
+            _.forEach(devices, function(device){
+                ws.SNSRegister(device);
+            });
+        });
+    },
+    SNSRegister: function(device){
+        var androidSNSApp = new SNS({  
+          platform: SNS.SUPPORTED_PLATFORMS.ANDROID,
+          region: 'us-west-2',
+          apiVersion: '2010-03-31',
+          accessKeyId: SNS_ACCESS_KEY,
+          secretAccessKey: SNS_KEY_ID,
+          platformApplicationArn: ANDROID_ARN
+        });
+        androidSNSApp.on(SNS.EVENTS.ADDED_USER, function(endpointArn, deviceId) { 
+            dal.updateDeviceTokenArn(deviceId, endpointArn,  function(err, newDevice){
+                var record = {
+                    type: "push-register-success",
+                    log: 'Successfully added device with deviceId: ' + deviceId + '. EndpointArn for user is: ' + endpointArn,
+                    at: moment().format(),
+                    device: device
+                };
+                dal.logData(record);
+            });
+        });
+        androidSNSApp.addUser(device.deviceToken, null, function(err, endpointArn) {
+            if(err) {
+                var record = {
+                    type: "push-register-failure",
+                    log: 'failed to add device with device: ' + device.deviceToken,
+                    at: moment().format(),
+                    device: device
+                };
+                dal.logData(record);
+            }
+        });
+    },
     login: function (loginInfo, cb) {
         var setToken = function(data, cb){
             var userDevice = {
@@ -235,6 +285,7 @@ var ws = {
             dal.findOne('deviceToken', userDevice, function(err, device){
                 if(!device){
                     dal.Save('deviceToken', userDevice, function(err, newDevice){
+                        ws.SNSRegister(newDevice);
                         cb(err, data);
                         return;
                     });
@@ -242,6 +293,7 @@ var ws = {
                 cb(null, data);
             });
         };
+        
         aMember.login(loginInfo.username, loginInfo.password, function (err, data) {
             var jData = null
             if (data)
@@ -452,6 +504,8 @@ module.exports.isLogedIn = function (request){
 };
 
 module.exports.login = ws.login;
-module.exports.addRide = ws.addRide;    
+module.exports.addRide = ws.addRide;
+module.exports.getNotifications = ws.getNotifications;
+module.exports.SNSRegisterAll = ws.SNSRegisterAll;
 
 
