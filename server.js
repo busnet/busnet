@@ -136,14 +136,19 @@ app.post('/rest/ride', function(req, res){
         var hash = req.headers['x-token'];
         dal.findOne('BusCompany', {_id: _.parseInt(hash)}, {}, function(err, data){
             var body = req.body;
+            var aviliableDate = moment(body.vacant_date);
+            var aviliableHour = moment(body.vacant_hour,'HH:mm');
+            aviliableDate.hour(aviliableHour.hour());
+            aviliableDate.minute(aviliableHour.minute());
+
             var ride = {
                 username: data._id,
                 h: hash,
                 type: body.ride_type.id.toString(),
                 area: body.vacant_area,
                 cityID: body.cityID,
-                aviliableDate: moment(body.vacant_date).format('DD/MM/YYYY'),
-                aviliableHour: moment(body.vacant_date).format('HH:mm'),
+                aviliableDate: aviliableDate.format('DD/MM/YYYY'),
+                aviliableHour: aviliableDate.format('HH:mm'),
                 vehicleType: body.vehicle.id,
                 vehicleNumber: body.vehicle_count,
                 returnDate: moment(body.return_date).format('DD/MM/YYYY'),
