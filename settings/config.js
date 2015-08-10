@@ -5,10 +5,18 @@ module.exports = {
 	    port: 3002
     },
     serve:{
+<<<<<<< HEAD
         host: "localhost",
         //host: "app.busnet.co.il",
         //port: 80
         port: 3002
+=======
+        //host: "localhost",
+        //host: "192.168.1.15",
+        host: "app.busnet.co.il",
+        port: 80
+        //port: 3002
+>>>>>>> 5b438a6ecaa479b58cce2a941fd0cc0ad064126c
 
     },
     db:{

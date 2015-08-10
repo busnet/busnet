@@ -134,16 +134,21 @@ app.get('/rest/ride/:rideid', function(req, res){
 app.post('/rest/ride', function(req, res){
     if(req.headers['x-token']){
         var hash = req.headers['x-token'];
-        dal.findOne('BusCompany', {hash: hash}, {}, function(err, data){
+        dal.findOne('BusCompany', {_id: _.parseInt(hash)}, {}, function(err, data){
             var body = req.body;
+            var aviliableDate = moment(body.vacant_date);
+            var aviliableHour = moment(body.vacant_hour,'HH:mm');
+            aviliableDate.hour(aviliableHour.hour());
+            aviliableDate.minute(aviliableHour.minute());
+
             var ride = {
                 username: data._id,
                 h: hash,
                 type: body.ride_type.id.toString(),
                 area: body.vacant_area,
                 cityID: body.cityID,
-                aviliableDate: moment(body.vacant_date).format('DD/MM/YYYY'),
-                aviliableHour: moment(body.vacant_date).format('HH:mm'),
+                aviliableDate: aviliableDate.format('DD/MM/YYYY'),
+                aviliableHour: aviliableDate.format('HH:mm'),
                 vehicleType: body.vehicle.id,
                 vehicleNumber: body.vehicle_count,
                 returnDate: moment(body.return_date).format('DD/MM/YYYY'),
@@ -164,6 +169,23 @@ app.post('/rest/ride', function(req, res){
     }else{
        res.json({error: 'you are not authorized'}); 
     }
+});
+
+app.get('/rest/notifications', function(req, res){
+    if(req.headers['x-token']){
+        var hash = req.headers['x-token'];
+        ws.getNotifications(hash, function(err, data){
+            res.json({
+                err: null,
+                data: data
+            });
+        });
+    }
+});
+
+app.get('/rest/utils/sns/register/all', function(req, res){
+    ws.SNSRegisterAll();
+    res.send('registered all devices');
 });
 
 app.get('/EctMail.html', function(request, response){
