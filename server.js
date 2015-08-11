@@ -76,9 +76,21 @@ app.post('/rest/login', function(req, res){
 });
 
 app.get('/rest/user', function(req, res){
-    if(req.headers['x-token']){
-        var id = req.headers['x-token'];
-        dal.findOne('BusCompany', {_id: _.parseInt(id)}, {}, function(err, data){
+    var userId = req.headers['x-token'];
+    if(userId){
+        dal.findOne('BusCompany', {_id: _.parseInt(userId)}, {}, function(err, data){
+            res.json({
+                err: err,
+                data: data
+            });
+        });
+    }
+});
+
+app.get('/rest/user/:userid', function(req, res){
+    var userId = req.params.userid;
+    if(userId){
+        dal.findOne('BusCompany', {_id: _.parseInt(userId)}, {}, function(err, data){
             res.json({
                 err: err,
                 data: data
