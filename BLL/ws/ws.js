@@ -53,7 +53,7 @@ var ws = {
             ride.fix1 = 1;
            
             dal.SaveDoc('Rides', ride, cb);
-            //ws.sendNotification(ride);
+            ws.sendNotification(ride);
         });
     },
     sendNotification: function(ride){

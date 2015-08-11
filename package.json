@@ -15,6 +15,7 @@
     "cheerio": "~0.13.1",
     "cors": "^2.5.3",
     "ect": "~0.5.6",
+    "emailjs": "^0.3.16",
     "emailjs-plus": "~0.3.4",
     "express": "~3.4.7",
     "extend": "^2.0.1",
