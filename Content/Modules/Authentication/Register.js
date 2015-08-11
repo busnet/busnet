@@ -37,9 +37,12 @@ function InitRegister1() {
 }
 
 function register1Continue() {
-    if (!ng.validate("Register"))
+	var uid = $(".AuthorizedDealer").val().length;
+    if (!ng.validate("Register")    ) {
         return;
-    var company = ng.getFormData("Company");
+	}
+	if ( uid > 8 && $(".Email").val().match(/(@)/).length > 0 ) {
+	var company = ng.getFormData("Company");
     company.dtl = ng.getFormData("CompanyDtl");
     company.dtl.email = company.email
     company.dtl.contactName = company.firstName + ' ' + company.lastName
@@ -49,18 +52,24 @@ function register1Continue() {
 
     ng.ws('addUser',company, function (d) {
         if (d) {
+		
             var date = new Date();
             date.setTime(date.getTime() + (48 * 60 * 60 * 1000)); // 48H
 
             $.cookie('username', d.username, { path: '/' ,expires: date  });
             $.cookie('h', d.hash, { path: '/', expires: date });
             $.cookie('name', d.dtl.companyName, { path: '/', expires: date });
-            window.location = '/';
-        }
-        else
-            alert('error');
+			
+            $("#regOk").popup("open");
+			
+			} else {
+				alert('אנא מלאו אחר ההוראות');
+			}
     });
-
+	
+			} else {
+				alert('אנא מלאו ח.פ/עוסק מורשה חוקי');
+			}
 }
 
 
@@ -187,3 +196,18 @@ function  UpdateUserDtl(){
     });
 }
 
+$( document ).ready(function() {
+		$(".register-btn").addClass("ui-disabled");
+		$(".terms-checkbox").change(function() {
+			if(this.checked) {
+				$(".register-btn").removeClass("ui-disabled");	  
+			} else {
+				$(".register-btn").addClass("ui-disabled");	
+			}
+		});
+		
+});
+
+function regFinish() {
+	window.close();
+}

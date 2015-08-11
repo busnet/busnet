@@ -1,3 +1,4 @@
+<script type="text/javascript" src="http://cdn.jtsage.com/datebox/latest/jqm-datebox.core.min.js"></script>
 <div class="AddRideTitleWrapper" ng-form="Ride">
     <div class="PagetitleWrapper">
         <h1 class="PageTitle">הוספת נסיעה</h1>
@@ -18,7 +19,7 @@
                     <label class="FormLabel">סוג נסיעה</label>
                     <!--<input type="text" ng-key="destination" ng-validate="required" class="DestinationTxt InputTxt" />-->
                     <select class="sDestinationT" ng-key="type" ng-validate="required" data-role="none">
-                        <option value="1">אוטובוס פנוי</option>
+                        <option value="1">כלי רכב פנוי</option>
                         <option value="2">קבלנות משנה</option>
                     </select>
                 </div>
@@ -28,7 +29,6 @@
             </div>
             <div class="HourWrapper Clear">
                 <label class="FormLabel">שעה</label>
-                <!--<input type="text" ng-key="aviliableHour" ng-validate="required" class="HourTxt InputTxt" />-->
                 <select class="sHours" ng-key="aviliableHour" ng-validate="required" data-role="none">
                     <option value="">בחר שעה</option>
                     <option value="01:00">01:00</option>
@@ -92,6 +92,7 @@
                     <option>וואן</option>
                     <option>מיקרובוס</option>
                     <option>רכב להסעת נכים</option>
+                    <option>רכב זעיר</option>
                 </select>
             </div>
             <div class="VehiclesNumberWrapper Clear">
