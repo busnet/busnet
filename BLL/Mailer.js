@@ -1,4 +1,4 @@
-﻿var email = require('../node_modules/emailjs-plus/email.js');
+﻿var email = require('../node_modules/emailjs/email.js');
 var ECT = require('ect');
 var renderer = ECT({ root : './Content/EmailTemplates', ext : '.htm' });
 var fs = require('fs');

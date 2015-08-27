@@ -18,6 +18,7 @@ var SNS = require('sns-mobile');
 var SNS_KEY_ID = process.env['AWS_SECRET_KEY'],  
   SNS_ACCESS_KEY = process.env['AWS_ACCESS_KEY_ID'];
 var ANDROID_ARN = process.env['SNS_ANDROID_ARN'];
+var IOS_ARN = process.env['SNS_IOS_ARN'];
 
 /*
  wsReq ={ 
@@ -72,20 +73,41 @@ var ws = {
                 }
                 break;
         }
-
-        var androidSNSApp = new SNS({  
-          platform: SNS.SUPPORTED_PLATFORMS.ANDROID,
-          region: 'us-west-2',
-          apiVersion: '2010-03-31',
-          accessKeyId: SNS_ACCESS_KEY,
-          secretAccessKey: SNS_KEY_ID,
-          platformApplicationArn: ANDROID_ARN
-        });
-
+        var SNSMsg = null;
         dal.getDeviceTokens(function(err, devices){
             _.forEach(devices, function(device){
-                if(device.endpointArn){
-                    androidSNSApp.sendMessage(device.endpointArn, msg.body, function(err, messageId) {  
+                var SNSApp = null;
+                if(device.platform=='android' && device.endpointArn){
+                    SNSApp = new SNS({  
+                      platform: SNS.SUPPORTED_PLATFORMS.ANDROID,
+                      region: 'us-west-2',
+                      apiVersion: '2010-03-31',
+                      accessKeyId: SNS_ACCESS_KEY,
+                      secretAccessKey: SNS_KEY_ID,
+                      platformApplicationArn: ANDROID_ARN
+                    });
+                    SNSMsg = msg.body;
+                }else if(device.platform=='ios' && device.endpointArn){
+                   SNSApp = new SNS({  
+                      platform: SNS.SUPPORTED_PLATFORMS.IOS,
+                      region: 'us-west-2',
+                      apiVersion: '2010-03-31',
+                      accessKeyId: SNS_ACCESS_KEY,
+                      secretAccessKey: SNS_KEY_ID,
+                      platformApplicationArn: IOS_ARN,
+                      sandbox: true
+                    });
+                    SNSMsg = {
+                        aps : {
+                            alert : {
+                                title : msg.title,
+                                body : msg.body,
+                            }
+                        }
+                    };
+                }
+                if(SNSApp && device.endpointArn){
+                    SNSApp.sendMessage(device.endpointArn, SNSMsg, function(err, messageId) {  
                         var record = {
                             ride: ride._id,
                             at: moment().format()
@@ -243,15 +265,15 @@ var ws = {
         });
     },
     SNSRegister: function(device){
-        var androidSNSApp = new SNS({  
-          platform: SNS.SUPPORTED_PLATFORMS.ANDROID,
+        var SNSApp = new SNS({  
+          platform: device.platform == 'android' ? SNS.SUPPORTED_PLATFORMS.ANDROID : SNS.SUPPORTED_PLATFORMS.IOS,
           region: 'us-west-2',
           apiVersion: '2010-03-31',
           accessKeyId: SNS_ACCESS_KEY,
           secretAccessKey: SNS_KEY_ID,
-          platformApplicationArn: ANDROID_ARN
+          platformApplicationArn: device.platform == 'android' ? ANDROID_ARN : IOS_ARN
         });
-        androidSNSApp.on(SNS.EVENTS.ADDED_USER, function(endpointArn, deviceId) { 
+        SNSApp.on(SNS.EVENTS.ADDED_USER, function(endpointArn, deviceId) { 
             dal.updateDeviceTokenArn(deviceId, endpointArn,  function(err, newDevice){
                 var record = {
                     type: "push-register-success",
@@ -262,7 +284,7 @@ var ws = {
                 dal.logData(record);
             });
         });
-        androidSNSApp.addUser(device.deviceToken, null, function(err, endpointArn) {
+        SNSApp.addUser(device.deviceToken, null, function(err, endpointArn) {
             if(err) {
                 var record = {
                     type: "push-register-failure",
@@ -276,22 +298,34 @@ var ws = {
     },
     login: function (loginInfo, cb) {
         var setToken = function(data, cb){
-            var userDevice = {
-                hash: data.hash,
-                userId: data._id,
-                type: 'google',
-                deviceToken: loginInfo.google.regid
-            };
-            dal.findOne('deviceToken', userDevice, function(err, device){
-                if(!device){
-                    dal.Save('deviceToken', userDevice, function(err, newDevice){
-                        ws.SNSRegister(newDevice);
-                        cb(err, data);
-                        return;
-                    });
-                }
-                cb(null, data);
-            });
+            var userDevice = null;
+            if(loginInfo.android){
+                userDevice = {
+                    hash: data.hash,
+                    userId: data._id,
+                    platform: 'android',
+                    deviceToken: loginInfo.android
+                };
+            }else if(loginInfo.ios){
+                userDevice = {
+                    hash: data.hash,
+                    userId: data._id,
+                    platform: 'ios',
+                    deviceToken: loginInfo.ios
+                };
+            }
+            if(userDevice){
+                dal.findOne('deviceToken', userDevice, function(err, device){
+                    if(!device){
+                        dal.Save('deviceToken', userDevice, function(err, newDevice){
+                            ws.SNSRegister(newDevice);
+                            cb(err, data);
+                            return;
+                        });
+                    }
+                    cb(null, data);
+                });
+            }
         };
         
         aMember.login(loginInfo.username, loginInfo.password, function (err, data) {
@@ -302,7 +336,7 @@ var ws = {
                 dal.findOne('BusCompany', { _id:jData.user_id }, { _id: 1, username: 1, hash: 1, firstName: 1, lastName: 1, "dtl.companyName":1,favi:1 }, function (err, d) {
                     if (d) {
                         users[loginInfo.username] = d.hash;
-                        if(loginInfo.google){
+                        if(loginInfo.android || loginInfo.ios){
                             setToken(d, cb);
                         }
                         cb(null, d);

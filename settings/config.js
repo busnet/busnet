@@ -9,7 +9,6 @@ module.exports = {
         //host: "app.trucknet.co.il",
         //port: 80
         port: 3002
-
     },
     db:{
         name:"BusNet",

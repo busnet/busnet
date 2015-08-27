@@ -11345,6 +11345,19 @@ function filterCities(area,cityDDLID) {
         }
     }
 }
+
+$( document ).ready(function() {
+$.ajax({
+  url: "http://cdn.jtsage.com/datebox/latest/jqm-datebox.core.min.js",
+  dataType: "script",
+  success: "ok"
+});
+$.ajax({
+  url: "http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.datebox.min.js",
+  dataType: "script",
+  success: "ok"
+});
+});
 $(document).ready(function () {
     //var socket = io.connect("127.0.0.1:3004");
     var socket = io.connect();
