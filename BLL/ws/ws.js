@@ -94,8 +94,8 @@ var ws = {
                       apiVersion: '2010-03-31',
                       accessKeyId: SNS_ACCESS_KEY,
                       secretAccessKey: SNS_KEY_ID,
-                      platformApplicationArn: IOS_ARN,
-                      sandbox: true
+                      platformApplicationArn: IOS_ARN
+                      //sandbox: true
                     });
                     SNSMsg = {
                         aps : {

@@ -163,6 +163,7 @@ app.post('/rest/ride', function(req, res){
                 aviliableHour: aviliableDate.format('HH:mm'),
                 vehicleType: body.vehicle.id,
                 vehicleNumber: body.vehicle_count,
+                platforms: body.platforms_count,
                 returnDate: moment(body.return_date).format('DD/MM/YYYY'),
                 destination: body.return_area,
                 dstCityID: body.dstCityID,
