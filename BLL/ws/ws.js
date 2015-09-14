@@ -102,7 +102,8 @@ var ws = {
                             alert : {
                                 title : msg.title,
                                 body : msg.body,
-                            }
+                            },
+                            sound: 'default'
                         }
                     };
                 }
