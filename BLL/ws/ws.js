@@ -95,7 +95,7 @@ var ws = {
                       accessKeyId: SNS_ACCESS_KEY,
                       secretAccessKey: SNS_KEY_ID,
                       platformApplicationArn: IOS_ARN,
-                      sandbox: false
+                      sandbox: true
                     });
                     SNSMsg = {
                         aps : {
@@ -103,7 +103,7 @@ var ws = {
                                 title : msg.title,
                                 body : msg.body,
                             },
-                            sound: 'default'
+                            sound: 'notification-beep.wav'
                         }
                     };
                 }
