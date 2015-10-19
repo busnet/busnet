@@ -1,4 +1,4 @@
-﻿var dal = require("../../DAL/dal").instance;
+var dal = require("../../DAL/dal").instance;
 var order = require("../Orders/Order");
 var aMember = require("../aMember");
 var crypto = require('crypto');
@@ -104,7 +104,7 @@ var ws = {
                                 title : msg.title,
                                 body : msg.body,
                             },
-                            sound: 'notification-beep.wav'
+                            sound: 'beep.wav'
                         }
                     };
                 }
