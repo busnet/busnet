@@ -37,6 +37,7 @@ var ws = {
     getBusCompanyDtl: function (busCompany, cb) {
         dal.findOne('BusCompany', { _id: parseInt(busCompany.username), hash: busCompany.h }, {  }, cb);
     },
+
     addRide: function (ride, cb) {
         dal.findOne('BusCompany', { _id: parseInt(ride.username) }, { _id: 1, "dtl.companyName": 1 }, function (err, d) {
             delete ride.h;
@@ -95,7 +96,7 @@ var ws = {
                       accessKeyId: SNS_ACCESS_KEY,
                       secretAccessKey: SNS_KEY_ID,
                       platformApplicationArn: IOS_ARN,
-                      sandbox: true
+                      sandbox: false
                     });
                     SNSMsg = {
                         aps : {
@@ -203,6 +204,9 @@ var ws = {
     },
     getBusCompany: function (id, cb) {
         dal.findOne('BusCompany', { "_id": id }, { }, cb);
+    },
+    getBusCompanies: function(name, cb){
+        dal.getBusCompanies(name, cb);
     },
     getRide: function (rideID, cb) {
         dal.findOne('Rides', { _id: parseInt(rideID) }, {requests:0}, cb);
@@ -334,6 +338,8 @@ var ws = {
             if (data)
                 jData = JSON.parse(data);
             if (jData && jData.ok) {
+                console.log('jdata:');
+                console.log(jData);
                 dal.findOne('BusCompany', { _id:jData.user_id }, { _id: 1, username: 1, hash: 1, firstName: 1, lastName: 1, "dtl.companyName":1,favi:1 }, function (err, d) {
                     if (d) {
                         users[loginInfo.username] = d.hash;
