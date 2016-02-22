@@ -5,15 +5,15 @@ module.exports = {
 	    port: 3002
     },
     serve:{
-        //host: "localhost",
-        host: "app.trucknet.co.il",
-        port: 80
-        //port: 3002
+        host: "localhost",
+        //host: "app.trucknet.co.il",
+        //port: 80
+        port: 3002
     },
     db:{
         name:"trucknet",
-        server:"ip-172-31-25-81.us-west-2.compute.internal"
-        //server: "localhost"
+        //server:"ip-172-31-25-81.us-west-2.compute.internal"
+        server: "localhost"
     },
     wasup:
     {

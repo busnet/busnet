@@ -4380,7 +4380,7 @@ line-height: 2;
         height: 100%;
 }
 
-	  /* mobile device */
+  /* mobile device */
 @media only screen and (min-device-width: 320px) and (max-device-width: 800px) {
 	.BusBG {
 	  background-image: none;
@@ -4477,7 +4477,7 @@ line-height: 2;
 	padding: 7%;
 	}
 }
-}.Login {
+.Login {
     margin: 31% 5% 0 0;
     display: inline-block;
 }
