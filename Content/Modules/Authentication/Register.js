@@ -116,7 +116,6 @@ function login(){
                  
                  $.cookie('faviArea', d.favi.area, { path: '/' });
              }
-
             ng.Load('/',options);            
             }
         });

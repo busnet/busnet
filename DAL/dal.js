@@ -112,6 +112,9 @@ var dal ={
         getRideTypes: function(cb){
             db.collection("RideTypes").find().toArray(cb);
         },
+        getBusCompanies: function(name, cb){
+            db.collection("BusCompany").find({'dtl.companyName': {$regex: name}}).toArray(cb);
+        },
         getPhoneNumbers: function(exclude_user, cb){
             var data = db.collection("BusCompany");
             var numbers=[];

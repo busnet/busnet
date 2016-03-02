@@ -37,6 +37,7 @@ var ws = {
     getBusCompanyDtl: function (busCompany, cb) {
         dal.findOne('BusCompany', { _id: parseInt(busCompany.username), hash: busCompany.h }, {  }, cb);
     },
+
     addRide: function (ride, cb) {
         dal.findOne('BusCompany', { _id: parseInt(ride.username) }, { _id: 1, "dtl.companyName": 1 }, function (err, d) {
             delete ride.h;
@@ -94,15 +95,16 @@ var ws = {
                       apiVersion: '2010-03-31',
                       accessKeyId: SNS_ACCESS_KEY,
                       secretAccessKey: SNS_KEY_ID,
-                      platformApplicationArn: IOS_ARN
-                      //sandbox: true
+                      platformApplicationArn: IOS_ARN,
+                      sandbox: false
                     });
                     SNSMsg = {
                         aps : {
                             alert : {
                                 title : msg.title,
                                 body : msg.body,
-                            }
+                            },
+                            sound: 'beep.wav'
                         }
                     };
                 }
@@ -202,6 +204,9 @@ var ws = {
     },
     getBusCompany: function (id, cb) {
         dal.findOne('BusCompany', { "_id": id }, { }, cb);
+    },
+    getBusCompanies: function(name, cb){
+        dal.getBusCompanies(name, cb);
     },
     getRide: function (rideID, cb) {
         dal.findOne('Rides', { _id: parseInt(rideID) }, {requests:0}, cb);
@@ -333,6 +338,8 @@ var ws = {
             if (data)
                 jData = JSON.parse(data);
             if (jData && jData.ok) {
+                console.log('jdata:');
+                console.log(jData);
                 dal.findOne('BusCompany', { _id:jData.user_id }, { _id: 1, username: 1, hash: 1, firstName: 1, lastName: 1, "dtl.companyName":1,favi:1 }, function (err, d) {
                     if (d) {
                         users[loginInfo.username] = d.hash;
@@ -349,7 +356,7 @@ var ws = {
                         busCompany.lastName = jData.name_l;
                         users[loginInfo.username] = busCompany.hash;
                         dal.SaveDoc('BusCompany', busCompany, setToken(busCompany, function(err, data){
-                            if(loginInfo.google){
+                            if(loginInfo.android || loginInfo.ios){
                                 setToken(data, cb);
                             }else{
                                 cb(null, cb);
@@ -361,48 +368,6 @@ var ws = {
                 cb(null, null);
             }
         });  
-    },
-    loginWithThirdParty: function (loginInfo, cb) {
-        aMember.login(loginInfo.username, loginInfo.password, function (err, data) {
-            var setToken = function(data, cb){
-                var userDevice = {
-                    hash: data.hash,
-                    type: 'google',
-                    deviceToken: loginInfo.google.regid
-                };
-                dal.findOne('deviceToken', userDevice, function(err, data){
-                    if(!data){
-                        dal.SaveDoc('deviceToken', userDevice, cb);
-                    }
-                    cb(null, data);
-                });
-            };
-            var jData = null;
-            if (data){
-                jData = JSON.parse(data);
-            }
-            if (jData && jData.ok) {
-                dal.findOne('BusCompany', { _id: jData.user_id }, { _id: 1, username: 1, hash: 1, firstName: 1, lastName: 1, "dtl.companyName":1,favi:1 }, function (err, d) {
-                    if (d) {
-                        users[loginInfo.username] = d.hash;
-                        setToken(d, cb);
-                    }
-                    else {
-                        var busCompany = loginInfo;
-                        busCompany._id = jData.user_id;
-                        busCompany.hash = crypto.createHash('md5').update(loginInfo.password).digest("hex");
-                        busCompany.email = jData.email;
-                        busCompany.firstName = jData.name_f;
-                        busCompany.lastName = jData.name_l;
-                        users[loginInfo.username] = busCompany.hash;
-                        dal.SaveDoc('BusCompany', busCompany, setToken(busCompany, cb));
-                    }
-                });
-            } else { // login falid
-                cb(null, null);
-            }
-        });
-        //dal.findOne('Customers',loginInfo,{_id:1,email:1,hash:1,firstName:1},cb);
     },
     getFaviArea: function (ud,cb) {
         dal.findOne('BusCompany', { username: ud.username, hash: ud.hash }, { _id: 1,  favi: 1 }, function (err, d) {

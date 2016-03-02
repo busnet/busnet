@@ -11133,7 +11133,6 @@ function login(){
                  
                  $.cookie('faviArea', d.favi.area, { path: '/' });
              }
-
             ng.Load('/',options);            
             }
         });
@@ -11250,6 +11249,45 @@ function getBusCompanyDtl() {
     });
 }var area = '';
 function InitAutocomplete(){
+    var isManager = parseInt($.cookie('username', { path: '/' })) == 164;
+    if(!isManager){
+        $( ".companyFilterWrapper" ).hide();
+    }
+    $( ".companyFilter" ).on( "listviewbeforefilter", function ( e, data ) {
+        var $ul = $( this ),
+        $input = $( data.input ),
+        value = $input.val();
+
+        $ul.html( "" );
+        if ( value && value.length > 1 ) {
+            $ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
+            $ul.show();
+            $ul.html( "<li></li>" );
+            ng.ws('getBusCompanies', value ,function (data) {
+                var company = "";
+                console.log(data);
+                $.each(data, function ( i, company ) {
+                    var companyName = company.dtl.companyName;
+                    var companyId = company._id;
+                    var companyHash = company.hash;
+                    var li = $("<li data-companyid=\""+ companyId +"\" data-companyhash=\""+ companyId +"\" data-filtertext=\""+ companyName +"\"><a href=\"javascript:false;\">"+ companyName +"</a></li>");
+                    li.click(function() {
+                        var selection = $(this).text();
+                        //var input = $(this).closest('div').find('input');
+                        $input.val(selection);
+                        $input.data("companyId", $(this).data().companyid);
+                        $input.data("companyName", $(this).data().filtertext);
+                        $input.data("companyHash", $(this).data().companyhash);
+                        $ul.hide();
+                    });
+                    $ul.append(li);
+                    $ul.listview( "refresh" );
+                    $ul.trigger( "updatelayout");
+                });
+            });
+        }
+    });
+
     $( ".filterable" ).on( "listviewbeforefilter", function ( e, data ) {
     var $ul = $( this ),
     $input = $( data.input ),
@@ -11305,9 +11343,19 @@ function addRide() {
     ride.dstCityID = parseInt($('#destinationfilter').data().cityid);
     ride.cityID = parseInt($('#sourcefilter').data().cityid);
 
-    ride.username = $.cookie('username', { path: '/' });
-    ride.h = $.cookie('h', { path: '/' });
-    ride.companyName = $.cookie('name', { path: '/' });
+    var rideCompanyId = $('#companyfilter').data().companyId;
+    if(rideCompanyId){
+        var rideComanyName = $('#companyfilter').data().companyName;
+        var rideCompanyHash = $('#companyfilter').data().companyHash;
+        ride.username = rideCompanyId;
+        ride.h = rideCompanyHash;
+        ride.companyName = rideComanyName;
+    }else{
+        ride.username = $.cookie('username', { path: '/' });
+        ride.h = $.cookie('h', { path: '/' });
+        ride.companyName = $.cookie('name', { path: '/' });
+    }
+    
    
     ng.ws('addRide', ride, function (d) {
         ng.Load('/myrides', { Container: '#Pane' });
